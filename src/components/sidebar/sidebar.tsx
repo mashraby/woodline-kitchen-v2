@@ -1,9 +1,8 @@
 import * as React from "react";
 import { NavLink } from "react-router-dom";
-import Button from "@mui/material/Button";
 import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
-import { styled as muiStyled, alpha } from "@mui/material/styles";
+import { styled as muiStyled, alpha, makeStyles } from "@mui/material/styles";
 import styledC from "styled-components";
 import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
@@ -143,6 +142,7 @@ const Drawer = styled(MuiDrawer, {
     "& .MuiDrawer-paper": closedMixin(theme),
   }),
 }));
+
 
 export const MiniDrawer: React.FC = () => {
   const theme = useTheme();

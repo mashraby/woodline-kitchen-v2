@@ -1,5 +1,4 @@
 import { useState } from "react";
-// import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
 import {
   IPerson,
   IRow,
@@ -14,6 +13,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { Button } from "@mui/material";
+import accounting from "accounting";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -80,21 +81,29 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
               <StyledTableCell>Telegram ID</StyledTableCell>
               <StyledTableCell>Phone Number</StyledTableCell>
               <StyledTableCell>Balance</StyledTableCell>
+              <StyledTableCell>Add Balance</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {users?.map((user, index) => (
-              <StyledTableRow
-                onClick={() => handleRowClick(user)}
-                key={user._id}
-              >
+              <StyledTableRow key={user._id}>
                 <StyledTableCell component="th" scope="row">
                   {index + 1}
                 </StyledTableCell>
                 <StyledTableCell>{user.fullname}</StyledTableCell>
                 <StyledTableCell>{user.telegram_id}</StyledTableCell>
                 <StyledTableCell>{user.phone_number}</StyledTableCell>
-                <StyledTableCell>{user.balance}</StyledTableCell>
+                <StyledTableCell>
+                  {accounting.formatNumber(user.balance, 0, " ") + " so'm"}
+                </StyledTableCell>
+                <StyledTableCell>
+                  <Button
+                    onClick={() => handleRowClick(user)}
+                    variant="outlined"
+                  >
+                    Добавить баланс
+                  </Button>
+                </StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>

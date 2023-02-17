@@ -20,18 +20,24 @@ const style = {
 export const BasicModal: React.FC<IOpenModalProps> = (props) => {
   const { setOpen, open, text, userId, balance } = props;
   const handleClose = () => setOpen(false);
+  const [empty, setEmpty] = useState<boolean>(false);
   const [changeBalance, setChangeBalance] = useState<number>();
   const { reload, setReload } = useContext(ReloadContext);
 
   const handleChangeBalance = (): void => {
-    setReload(!reload);
-    postBalance(userId, changeBalance, true)
-      .then((res) => console.log(res))
-      .finally((): void => {
-        setOpen(false);
-        setReload(!reload);
-        toast.success("Balance qo'shildi");
-      });
+    if (changeBalance !== undefined) {
+      setReload(!reload);
+      postBalance(userId, changeBalance, true)
+        .then((res) => console.log(res))
+        .finally((): void => {
+          setChangeBalance(undefined);
+          setOpen(false);
+          setReload(!reload);
+          toast.success("Balance qo'shildi");
+        });
+    } else {
+      setEmpty(true);
+    }
   };
 
   return (
@@ -60,16 +66,18 @@ export const BasicModal: React.FC<IOpenModalProps> = (props) => {
             {"Balance: " + balance}
           </Typography>
           <TextField
+            error={empty ? true : false}
             required={true}
             type="number"
             onChange={(
               e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
             ): void => {
+              setEmpty(false);
               setChangeBalance(+e.target.value);
             }}
             sx={{ width: 1, mb: 1.5 }}
-            id="outlined-basic"
-            label="Add balance"
+            id={empty ? "outlined-error" : "outlined-basic"}
+            label={empty ? "Введите значение" : "Добавить баланс"}
             variant="outlined"
           />
           <Button
@@ -77,7 +85,7 @@ export const BasicModal: React.FC<IOpenModalProps> = (props) => {
             sx={{ width: 1 }}
             variant="outlined"
           >
-            Add balance
+            Добавить баланс
           </Button>
         </Box>
       </Modal>
