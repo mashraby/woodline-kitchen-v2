@@ -3,6 +3,7 @@ import { Typography, TextField, Button } from "@mui/material";
 import styled from "styled-components";
 import { ILogin } from "../../../interfaces/login.interfaces";
 import { login } from "../../../services/api";
+import { useNavigate } from "react-router-dom";
 
 const AuthWrapper = styled.div`
   padding: 20px;
@@ -26,10 +27,16 @@ export const AuthForm: React.FC = () => {
     username: "",
     password: "",
   });
+  const navigate = useNavigate()
 
   const handleLogin = (): void => {
     login(loginData.username, loginData.password).then((res) => {
-      console.log(res);
+      if(res.data.token) {
+        localStorage.setItem("token", JSON.stringify(res.data.token))
+        navigate("/roles")
+      } else {
+        // 
+      }
     });
   };
 

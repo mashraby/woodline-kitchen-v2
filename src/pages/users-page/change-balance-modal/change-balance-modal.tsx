@@ -3,6 +3,7 @@ import { TextField, Typography, Button, Modal, Box } from "@mui/material";
 import { IOpenModalProps } from "../../../interfaces/users.interfaces";
 import { postBalance } from "../../../services/api";
 import { ReloadContext } from "../../../context/reload.context";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { toast } from "react-toastify";
 
 const style = {
@@ -83,7 +84,8 @@ export const BasicModal: React.FC<IOpenModalProps> = (props) => {
           <Button
             onClick={handleChangeBalance}
             sx={{ width: 1 }}
-            variant="outlined"
+            variant="contained"
+            endIcon={<AddCircleOutlineIcon />}
           >
             Добавить баланс
           </Button>

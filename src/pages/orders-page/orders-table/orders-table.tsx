@@ -6,7 +6,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { IRole, IRolesProps } from "../../../interfaces/roles.interfaces";
+import { IOrder, IOrdersProps } from "../../../interfaces/orders.interfaces";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -28,8 +28,11 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-export const OrdersTable: React.FC<IRolesProps> = (props) => {
-  const roles: IRole[] = props.roles as any;
+export const OrdersTable: React.FC<IOrdersProps> = (props) => {
+  const orders: IOrder[] = props.orders as any;
+
+  console.log(orders);
+  
 
   return (
     <>
@@ -45,12 +48,12 @@ export const OrdersTable: React.FC<IRolesProps> = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {roles?.map((role, index) => (
-              <StyledTableRow key={role._id}>
+            {orders?.map((order, index) => (
+              <StyledTableRow key={order._id}>
                 <StyledTableCell component="th" scope="row">
                   {index + 1}
                 </StyledTableCell>
-                <StyledTableCell>{role.title}</StyledTableCell>
+                <StyledTableCell>{order.user}</StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>

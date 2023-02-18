@@ -1,9 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MiniDrawer } from "../../components/sidebar/sidebar";
 import Box from "@mui/material/Box";
 import styled from "styled-components";
 import { Typography } from "@mui/material";
 import { OrdersTable } from "./orders-table/orders-table";
+import { getOrders } from "../../services/api";
+import { IOrder } from "../../interfaces/orders.interfaces";
 
 const FlexWrapper = styled.div`
   display: flex;
@@ -14,6 +16,12 @@ const FlexWrapper = styled.div`
 `;
 
 export const OrdersPage: React.FC = () => {
+  const [orders, setOrders] = useState<IOrder[]>([])
+
+  useEffect(() => {
+    getOrders().then(data => setOrders(data))
+  }, [])
+
   return (
     <>
       <Box sx={{ display: "flex" }}>
@@ -24,7 +32,7 @@ export const OrdersPage: React.FC = () => {
               Заказы
             </Typography>
           </FlexWrapper>
-          <OrdersTable />
+          <OrdersTable orders={orders} />
         </Box>
       </Box>
     </>

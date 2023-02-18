@@ -23,8 +23,8 @@ import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import PeopleIcon from "@mui/icons-material/People";
 import KeyboardCommandKeyIcon from "@mui/icons-material/KeyboardCommandKey";
-import FoodBankIcon from "@mui/icons-material/FoodBank";
-import FastfoodIcon from '@mui/icons-material/Fastfood';
+import FastfoodIcon from "@mui/icons-material/Fastfood";
+import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
 
 const FlexWrapper = styledC.div`
   width: 100%;
@@ -146,7 +146,7 @@ const Drawer = styled(MuiDrawer, {
 
 export const MiniDrawer: React.FC = () => {
   const theme = useTheme();
-  const myOpen = JSON.parse(localStorage.getItem("open") as any)
+  const myOpen = JSON.parse(localStorage.getItem("open") as any);
   const [open, setOpen] = useState(myOpen);
 
   const handleDrawerOpen = () => {
@@ -158,8 +158,8 @@ export const MiniDrawer: React.FC = () => {
   };
 
   useEffect(() => {
-    localStorage.setItem("open", JSON.stringify(open))
-  }, [open])
+    localStorage.setItem("open", JSON.stringify(open));
+  }, [open]);
 
   return (
     <>
@@ -230,7 +230,7 @@ export const MiniDrawer: React.FC = () => {
             <ListItem disablePadding>
               <ListItemButton>
                 <ListItemIcon>
-                  <FastfoodIcon />
+                  <RestaurantMenuIcon />
                 </ListItemIcon>
                 <ListItemText primary={"Категория еды"} />
               </ListItemButton>
@@ -240,7 +240,7 @@ export const MiniDrawer: React.FC = () => {
             <ListItem disablePadding>
               <ListItemButton>
                 <ListItemIcon>
-                  <FoodBankIcon />
+                  <FastfoodIcon />
                 </ListItemIcon>
                 <ListItemText primary={"Еда"} />
               </ListItemButton>
