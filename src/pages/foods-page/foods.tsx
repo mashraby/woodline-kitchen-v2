@@ -9,6 +9,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { FoodsTable } from "./foods-table/foods-table";
 import { IFood } from "../../interfaces/foods.interfaces";
 import { AddFoodModal } from "./add-food-modal/add-food-modal";
+import { ChangeFoodModal } from "./change-price-modal/change-price-modal";
 
 const FlexWrapper = styled.div`
   display: flex;

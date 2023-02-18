@@ -1,13 +1,13 @@
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
-import SendIcon from "@mui/icons-material/Send";
+import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 import { TextField, Typography } from "@mui/material";
 import { ReloadContext } from "../../../context/reload.context";
-import { IAddUserProps } from "../../../interfaces/adduser.interfaces";
+import { IChangeFoodProps } from "../../../interfaces/foods.interfaces";
 
 const style = {
   position: "absolute" as "absolute",
@@ -21,18 +21,24 @@ const style = {
   p: 4,
 };
 
-export const AddUserModal: React.FC<IAddUserProps> = (props) => {
-  const { open, setOpen } = props;
-  const handleClose = () => setOpen(false);
-  const [title, setTitle] = useState<string>("");
+export const ChangeFoodModal: React.FC<IChangeFoodProps> = (props) => {
+  const { changeOpen, setChangeOpen, oldCost } = props;
+  const handleClose = () => setChangeOpen(false);
+  const [costEmpty, setCostEmty] = useState<boolean>(false);
+  const [cost, setCost] = useState<number>();
+  const [newCost, setNewCost] = useState<number>();
   const { reload, setReload } = useContext(ReloadContext);
+
+  const changeFoodPrice = (): void => {
+    console.log(newCost);
+  };
 
   return (
     <div>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
-        open={open}
+        open={changeOpen}
         onClose={handleClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
@@ -40,33 +46,38 @@ export const AddUserModal: React.FC<IAddUserProps> = (props) => {
           timeout: 500,
         }}
       >
-        <Fade in={open}>
+        <Fade in={changeOpen}>
           <Box sx={style}>
             <Typography
               sx={{ textAlign: "center" }}
               variant="h4"
               component="div"
             >
-              Add User
+              Изменить цену
             </Typography>
             <TextField
-              required={true}
+              defaultValue={oldCost}
+              error={costEmpty ? true : false}
+              type="number"
               onChange={(
                 e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
               ) => {
-                setTitle(e.target.value);
+                setCostEmty(false);
+                setNewCost(+e.target.value);
               }}
               sx={{ my: 2, width: "100%" }}
-              id="outlined-basic"
-              label="Write a role title"
+              id={costEmpty ? "outlined-error" : "outlined-basic"}
+              label={costEmpty ? "Введите значение" : "Напишите стоимость еды"}
               variant="outlined"
             />
+
             <Button
+              onClick={changeFoodPrice}
               sx={{ width: "100%" }}
               variant="contained"
-              endIcon={<SendIcon />}
+              endIcon={<ChangeCircleIcon />}
             >
-              Add User
+              Изменить цену
             </Button>
           </Box>
         </Fade>

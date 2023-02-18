@@ -7,7 +7,6 @@ import { UsersTable } from "./users-table/users-table";
 import Box from "@mui/material/Box";
 import styled from "styled-components";
 import { Typography } from "@mui/material";
-import { AddUserModal } from "./add-user-modal/add-user-modal";
 
 const FlexWrapper = styled.div`
   display: flex;
@@ -30,7 +29,6 @@ export const UsersPage: React.FC = () => {
 
   return (
     <>
-      <AddUserModal open={open} setOpen={setOpen} />
       <Box sx={{ display: "flex" }}>
         <MiniDrawer />
         <Box component="main" sx={{ flexGrow: 1, px: 3, py: 12 }}>

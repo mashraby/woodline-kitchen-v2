@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { ICategory } from "../interfaces/categorys.interfaces";
 import { IFood } from "../interfaces/foods.interfaces";
+import { IOrder } from "../interfaces/orders.interfaces";
 import { IRole } from "../interfaces/roles.interfaces";
 import { IPerson } from "../interfaces/users.interfaces";
 
@@ -76,3 +77,10 @@ export const postFood = (
     category,
   });
 };
+
+// Orders Service //
+
+export const getOrders = (): Promise<Array<IOrder>>=> {
+  return axios.get("/order")
+    .then((res: AxiosResponse) => res.data)
+}
