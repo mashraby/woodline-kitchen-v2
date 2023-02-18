@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 
-const Public = () => {
+const Public = (): JSX.Element => {
   return <Outlet />;
 };
 
