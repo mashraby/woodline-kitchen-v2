@@ -148,6 +148,9 @@ export const MiniDrawer: React.FC = () => {
   const theme = useTheme();
   const myOpen = JSON.parse(localStorage.getItem("open") as any);
   const [open, setOpen] = useState(myOpen);
+  const href: string = window.location.href
+    .toString()
+    .split("http://localhost:3000")[1];
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -206,56 +209,66 @@ export const MiniDrawer: React.FC = () => {
         </DrawerHeader>
         <Divider />
         <List>
-          <NavLink to={`/roles`}>
-            <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <KeyboardCommandKeyIcon />
-                </ListItemIcon>
-                <ListItemText primary={"Роли"} />
-              </ListItemButton>
-            </ListItem>
-          </NavLink>
-          <NavLink to={`/users`}>
-            <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <PeopleIcon />
-                </ListItemIcon>
-                <ListItemText primary={"Пользователи"} />
-              </ListItemButton>
-            </ListItem>
-          </NavLink>
-          <NavLink to={`/food-category`}>
-            <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <RestaurantMenuIcon />
-                </ListItemIcon>
-                <ListItemText primary={"Категория еды"} />
-              </ListItemButton>
-            </ListItem>
-          </NavLink>
-          <NavLink to={`/foods`}>
-            <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <FastfoodIcon />
-                </ListItemIcon>
-                <ListItemText primary={"Еда"} />
-              </ListItemButton>
-            </ListItem>
-          </NavLink>
-          <NavLink to={`/orders`}>
-            <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <InboxIcon />
-                </ListItemIcon>
-                <ListItemText primary={"Заказы"} />
-              </ListItemButton>
-            </ListItem>
-          </NavLink>
+          <ListItem disablePadding>
+            <ListItemButton
+              className={href === "/roles" ? "Mui-selected" : ""}
+              component={NavLink}
+              to="/roles"
+            >
+              <ListItemIcon>
+                <KeyboardCommandKeyIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Роли"} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton
+              className={href === "/users" ? "Mui-selected" : ""}
+              component={NavLink}
+              to="/users"
+            >
+              <ListItemIcon>
+                <PeopleIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Пользователи"} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton
+              className={href === "/food-category" ? "Mui-selected" : ""}
+              component={NavLink}
+              to="/food-category"
+            >
+              <ListItemIcon>
+                <RestaurantMenuIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Категория еды"} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton
+              className={href === "/foods" ? "Mui-selected" : ""}
+              component={NavLink}
+              to="/foods"
+            >
+              <ListItemIcon>
+                <FastfoodIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Еда"} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton
+              className={href === "/orders" ? "Mui-selected" : ""}
+              component={NavLink}
+              to="/orders"
+            >
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Заказы"} />
+            </ListItemButton>
+          </ListItem>
         </List>
       </Drawer>
     </>
