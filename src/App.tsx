@@ -7,6 +7,7 @@ import { UsersPage } from "./pages/users-page/users-page";
 import { FoodsPage } from "./pages/foods-page/foods";
 import "react-toastify/dist/ReactToastify.css";
 import { FoodCategoryPage } from "./pages/food-category-page/food-category";
+import { OrdersPage } from "./pages/orders-page/orders-page";
 
 export const App: React.FC = () => {
   return (
@@ -18,6 +19,7 @@ export const App: React.FC = () => {
         <Route path="/roles" element={<RolesPage />} />
         <Route path="/foods" element={<FoodsPage />} />
         <Route path="/food-category" element={<FoodCategoryPage />} />
+        <Route path="/orders" element={<OrdersPage />} />
       </Routes>
     </div>
   );

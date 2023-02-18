@@ -1,8 +1,8 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
-import { styled as muiStyled, alpha, makeStyles } from "@mui/material/styles";
+import { styled as muiStyled, alpha } from "@mui/material/styles";
 import styledC from "styled-components";
 import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
@@ -24,6 +24,7 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import PeopleIcon from "@mui/icons-material/People";
 import KeyboardCommandKeyIcon from "@mui/icons-material/KeyboardCommandKey";
 import FoodBankIcon from "@mui/icons-material/FoodBank";
+import FastfoodIcon from '@mui/icons-material/Fastfood';
 
 const FlexWrapper = styledC.div`
   width: 100%;
@@ -143,10 +144,10 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-
 export const MiniDrawer: React.FC = () => {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(true);
+  const myOpen = JSON.parse(localStorage.getItem("open") as any)
+  const [open, setOpen] = useState(myOpen);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -155,6 +156,10 @@ export const MiniDrawer: React.FC = () => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    localStorage.setItem("open", JSON.stringify(open))
+  }, [open])
 
   return (
     <>
@@ -225,7 +230,7 @@ export const MiniDrawer: React.FC = () => {
             <ListItem disablePadding>
               <ListItemButton>
                 <ListItemIcon>
-                  <InboxIcon />
+                  <FastfoodIcon />
                 </ListItemIcon>
                 <ListItemText primary={"Категория еды"} />
               </ListItemButton>
@@ -238,6 +243,16 @@ export const MiniDrawer: React.FC = () => {
                   <FoodBankIcon />
                 </ListItemIcon>
                 <ListItemText primary={"Еда"} />
+              </ListItemButton>
+            </ListItem>
+          </NavLink>
+          <NavLink to={`/orders`}>
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <InboxIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Заказы"} />
               </ListItemButton>
             </ListItem>
           </NavLink>
