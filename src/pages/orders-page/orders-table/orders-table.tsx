@@ -7,6 +7,11 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { IOrder, IOrdersProps } from "../../../interfaces/orders.interfaces";
+import { IPerson } from "../../../interfaces/users.interfaces";
+import { useContext, useEffect, useState } from "react";
+import { ReloadContext } from "../../../context/reload.context";
+import { getFoods, getUsers } from "../../../services/api";
+import { IFood } from "../../../interfaces/foods.interfaces";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -30,9 +35,17 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export const OrdersTable: React.FC<IOrdersProps> = (props) => {
   const orders: IOrder[] = props.orders as any;
+  const [users, setUsers] = useState<IPerson[]>([]);
+  const [foods, setFoods] = useState<IFood[]>([]);
+  const { reload } = useContext(ReloadContext);
 
-  console.log(orders);
-  
+  useEffect(() => {
+    getUsers().then((data) => setUsers(data));
+  }, [reload]);
+
+  useEffect(() => {
+    getFoods().then((data) => setFoods(data));
+  }, []);
 
   return (
     <>
@@ -43,8 +56,8 @@ export const OrdersTable: React.FC<IOrdersProps> = (props) => {
               <StyledTableCell>ID</StyledTableCell>
               <StyledTableCell>User</StyledTableCell>
               <StyledTableCell>Order</StyledTableCell>
-              <StyledTableCell>Order Cost</StyledTableCell>
-              <StyledTableCell>Order Date</StyledTableCell>
+              <StyledTableCell>Total Cost</StyledTableCell>
+              <StyledTableCell>Status</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -53,7 +66,49 @@ export const OrdersTable: React.FC<IOrdersProps> = (props) => {
                 <StyledTableCell component="th" scope="row">
                   {index + 1}
                 </StyledTableCell>
-                <StyledTableCell>{order.user}</StyledTableCell>
+                <StyledTableCell>
+                  {
+                    users?.find((user) => user._id === order.user)
+                      ?.fullname
+                  }
+                </StyledTableCell>
+                <StyledTableCell>
+                  {
+                    <details>
+                      <summary>Order foods</summary>
+                      <ul>
+                        {
+                          order.food?.map(f => (
+                            <li key={f._id}>
+                              {
+                                foods?.filter(food => food._id === f._id).map(fff => {
+                                  return (
+                                    <p key={fff._id}>{fff.name + " " + f.count + " ta"}</p>
+                                  )
+                                })
+                              }
+                            </li>
+                          ))
+                        }
+                      </ul>
+                    </details>
+                  }
+                </StyledTableCell>
+                <StyledTableCell>
+                  {order.total_cost}
+                </StyledTableCell>
+                <StyledTableCell>
+                  <span style={{ 
+                    background: order.is_given === true ? "green" : order.is_canceled === true ? "red" : "cyan",
+                    color: order.is_given === true ? "white" : order.is_canceled === true ? "white" : "black",
+                    padding: "3px 4px",
+                    borderRadius: "4px"
+                    }}>
+                    { 
+                      order.is_given === true ? "Done" : order.is_canceled === true ? "Canceled" : "Pending"
+                    }
+                  </span>
+                </StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
