@@ -1,10 +1,16 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { TextField, Typography, Button, Modal, Box } from "@mui/material";
-import { IOpenModalProps } from "../../../interfaces/users.interfaces";
-import { postBalance } from "../../../services/api";
+import { IOpenModalUserProps } from "../../../interfaces/users.interfaces";
+// import { postBalance } from "../../../services/api";
+import { getRoles } from "../../../services/api"
+import { IRole } from "../../../interfaces/roles.interfaces";
 import { ReloadContext } from "../../../context/reload.context";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { toast } from "react-toastify";
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 const style = {
   position: "absolute" as "absolute",
@@ -18,17 +24,46 @@ const style = {
   p: 4,
 };
 
-export const BasicModal: React.FC<IOpenModalProps> = (props) => {
-  const { setOpen, open, text, userId, balance } = props;
-  const handleClose = () => setOpen(false);
+export const BasicModalUser: React.FC<IOpenModalUserProps> = (props) => {
+  const { setOpenUser, openUser, text, userId, balance, userRole } = props;
+  const handleClose = () => setOpenUser(false);
   const [empty, setEmpty] = useState<boolean>(false);
-  const [changeBalance, setChangeBalance] = useState<number>();
+  const [changeUserName, setChangeUserName] = useState<string>(text);
   const { reload, setReload } = useContext(ReloadContext);
+  const [newRole, setNewRole] = useState<string>('');
+  const [roles, setRoles] = useState<IRole[]>([]);
+
+  useEffect((): void => {
+    getRoles().then((data) => {
+      setRoles(data)
+    });
+  }, [reload]);
+
+  const handleChange = (event: SelectChangeEvent):void => {
+    setNewRole(event.target.value as string);
+  };
+
+  useEffect(():void => {
+    setChangeUserName(text)
+  }, [text])
+  useEffect(():void => {
+    setNewRole(userRole)
+  }, [userRole])
+
+  const handleChangeUser = (): void => {
+    if(newRole == "" || changeUserName == "") {
+      setEmpty(true);
+    }else {
+      console.log(newRole,changeUserName );
+    }
+
+
+  };
 
   return (
     <div>
       <Modal
-        open={open}
+        open={openUser}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
@@ -42,35 +77,53 @@ export const BasicModal: React.FC<IOpenModalProps> = (props) => {
           >
             {"Fullname: " + text}
           </Typography>
-          <Typography
-            sx={{ mb: 1.5 }}
-            id="modal-modal-title"
-            variant="h6"
-            component="h2"
-          >
-            {"Balance: " + balance}
-          </Typography>
           <TextField
             error={empty ? true : false}
             required={true}
-            type="number"
+            type="text"
+            defaultValue={text}
             onChange={(
               e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
             ): void => {
               setEmpty(false);
-              setChangeBalance(+e.target.value);
+              setChangeUserName(e.target.value);
             }}
             sx={{ width: 1, mb: 1.5 }}
             id={empty ? "outlined-error" : "outlined-basic"}
-            label={empty ? "Введите значение" : "Добавить баланс"}
+            label={empty ? "Введите новое имя пользователя" : "Новое имя пользователя"}
             variant="outlined"
           />
+
+          <FormControl sx={{ mb: 1.5 }} fullWidth>
+            <InputLabel id="demo-simple-select-label">Роль</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={newRole}
+              label="Роль"
+              defaultValue={userRole}
+              required={true}
+              onChange={handleChange}
+            >
+              {
+                roles && roles.map(value => {
+                  return <MenuItem key={value._id} value={value._id}>
+                    {value.title}
+                  </MenuItem>
+                })
+              }
+
+              {/* <MenuItem value={20}>Twenty</MenuItem>
+              <MenuItem value={30}>Thirty</MenuItem> */}
+            </Select>
+          </FormControl>
           <Button
+            onClick={handleChangeUser}
             sx={{ width: 1 }}
             variant="contained"
             endIcon={<AddCircleOutlineIcon />}
           >
-            Добавить баланс
+            Изменить пользователя
           </Button>
         </Box>
       </Modal>

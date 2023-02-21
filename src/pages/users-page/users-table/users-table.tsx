@@ -5,6 +5,7 @@ import {
   UsersTableProps,
 } from "../../../interfaces/users.interfaces";
 import { BasicModal } from "../change-balance-modal/change-balance-modal";
+import { BasicModalUser } from "../change-user-modal/change-user-modal";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -40,9 +41,11 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
   const rows: IRow[] = [];
   const users: IPerson[] = props.users as any;
   const [open, setOpen] = useState<boolean>(false);
+  const [openUser, setOpenUser] = useState<boolean>(false);
   const [text, setText] = useState<string>("");
   const [userId, setUserId] = useState<string>("");
   const [balance, setBalance] = useState<number>();
+  const [userRole, setUserRole] = useState<string>("")
 
   users &&
     users.forEach((e, i) => {
@@ -63,11 +66,27 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
     setBalance(user.balance);
   };
 
+  const handleChangeUser = (user: IPerson): void => {
+    setOpenUser(true)
+    setUserRole(user.role._id)
+    setText(user.fullname);
+    setUserId(user._id);
+    setBalance(user.balance);
+  };
+
   return (
     <>
       <BasicModal
         open={open}
         setOpen={setOpen}
+        text={text}
+        userId={userId}
+        balance={balance}
+      />
+      <BasicModalUser
+        openUser={openUser}
+        setOpenUser={setOpenUser}
+        userRole={userRole}
         text={text}
         userId={userId}
         balance={balance}
@@ -102,7 +121,7 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
                     aria-label="small outlined primary button group"
                   >
                     <Button onClick={() => handleRowClick(user)}>Добавить баланс</Button>
-                    <Button>изменить</Button>
+                    <Button onClick={() => handleChangeUser(user)}>изменить</Button>
                   </ButtonGroup>
                 </StyledTableCell>
               </StyledTableRow>
