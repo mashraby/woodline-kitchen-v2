@@ -13,7 +13,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Button } from "@mui/material";
+import { Button, ButtonGroup } from "@mui/material";
 import accounting from "accounting";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -97,12 +97,13 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
                   {accounting.formatNumber(user.balance, 0, " ") + " so'm"}
                 </StyledTableCell>
                 <StyledTableCell>
-                  <Button
-                    onClick={() => handleRowClick(user)}
-                    variant="outlined"
+                  <ButtonGroup
+                    variant="contained"
+                    aria-label="small outlined primary button group"
                   >
-                    Добавить баланс
-                  </Button>
+                    <Button onClick={() => handleRowClick(user)}>Добавить баланс</Button>
+                    <Button>изменить</Button>
+                  </ButtonGroup>
                 </StyledTableCell>
               </StyledTableRow>
             ))}

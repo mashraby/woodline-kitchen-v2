@@ -105,7 +105,7 @@ export const OrdersTable: React.FC<IOrdersProps> = (props) => {
                     borderRadius: "4px"
                     }}>
                     { 
-                      order.is_given === true ? "Done" : order.is_canceled === true ? "Canceled" : "Pending"
+                      order.is_given === true ? "Сделанный" : order.is_canceled === true ? "Отменено" : "В ожидании"
                     }
                   </span>
                 </StyledTableCell>

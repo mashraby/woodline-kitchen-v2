@@ -10,6 +10,7 @@ import { FoodCategoryPage } from "./pages/food-category-page/food-category";
 import { OrdersPage } from "./pages/orders-page/orders-page";
 import Public from "./routes/public";
 import Private from "./routes/private";
+import { PaymentsPage } from "./pages/payments-page/payments-page";
 
 export const App: React.FC = () => {
   return (
@@ -25,6 +26,7 @@ export const App: React.FC = () => {
           <Route path="/foods" element={<FoodsPage />} />
           <Route path="/food-category" element={<FoodCategoryPage />} />
           <Route path="/orders" element={<OrdersPage />} />
+          <Route path="/payments" element={<PaymentsPage />} />
         </Route>
       </Routes>
     </div>
