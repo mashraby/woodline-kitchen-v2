@@ -13,6 +13,16 @@ export interface IPerson {
     role: IRole
 }
 
+export interface IUsersPagination {
+    users: IPerson[]
+    currentPage: number
+    totalPages: number
+    totalUsers: number
+    usersOnPage: number
+}
+
+// export interface 
+
 export interface UsersTableProps {
     users?: IPerson[];
 }

@@ -4,7 +4,7 @@ import { IFood } from "../interfaces/foods.interfaces";
 import { IOrder } from "../interfaces/orders.interfaces";
 import { IPayment } from "../interfaces/payments.interfacess";
 import { IRole } from "../interfaces/roles.interfaces";
-import { IPerson } from "../interfaces/users.interfaces";
+import { IPerson, IUsersPagination } from "../interfaces/users.interfaces";
 
 // LOGIN Service //
 
@@ -23,6 +23,11 @@ export const login = (
 export const getUsers = (): Promise<Array<IPerson>> => {
   return axios.get("/user").then((res) => res.data);
 };
+
+export const getUsersPagination = (page: number, size: number): Promise<IUsersPagination> => {
+  return axios.get(`/user/pagination/?page=${page}&size=${size}`)
+    .then(res => res.data)
+}
 
 export const postBalance = (
   id: string,

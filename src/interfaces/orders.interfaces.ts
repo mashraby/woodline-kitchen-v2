@@ -3,9 +3,21 @@ interface IOrderFood {
     count: number
 }
 
+interface IOrderUser {
+    _id: string
+    fullname: string
+    password: string
+    phone_number: string
+    telegram_id: number
+    balance: number
+    is_active: boolean
+    role: string
+}
+
+
 export interface IOrder {
     _id: string
-    user: string
+    user: IOrderUser
     comment: string
     food: IOrderFood[]
     total_cost: number
