@@ -22,50 +22,6 @@ export const OrdersPage: React.FC = () => {
     getOrders().then((data) => setOrders(data));
   }, []);
 
-  let myArr = [
-    {
-      _id: "1",
-      user: "63e7a688cec37b154b904172",
-      comment: "",
-      food: [{
-        _id: "63ee0f00cc530add13e99bcf",
-        count: 1,
-      }],
-      total_cost: 10000,
-      is_given: false,
-      is_canceled: true,
-    },
-    {
-      _id: "2",
-      user: "63e7a6afcec37b154b904175",
-      comment: "",
-      food: [{
-        _id: "63ee5e54acd8ff3e8aa31636",
-        count: 2,
-      }],
-      total_cost: 30000,
-      is_given: true,
-      is_canceled: false,
-    },
-    {
-      _id: "3",
-      user: "63e9377d0b431ec9d547cd90",
-      comment: "",
-      food: [{
-        _id: "63ee3df4157b78de04120ce6",
-        count: 1,
-      },
-      {
-        _id: "63ee5f07acd8ff3e8aa31659",
-        count: 1
-      }
-    ],
-      total_cost: 20000,
-      is_given: false,
-      is_canceled: false,
-    },
-  ];
-
   return (
     <>
       <Box sx={{ display: "flex" }}>
@@ -76,7 +32,7 @@ export const OrdersPage: React.FC = () => {
               Заказы
             </Typography>
           </FlexWrapper>
-          <OrdersTable orders={myArr} />
+          <OrdersTable orders={orders} />
         </Box>
       </Box>
     </>

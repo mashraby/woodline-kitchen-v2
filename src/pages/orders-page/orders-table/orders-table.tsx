@@ -68,8 +68,7 @@ export const OrdersTable: React.FC<IOrdersProps> = (props) => {
                 </StyledTableCell>
                 <StyledTableCell>
                   {
-                    users?.find((user) => user._id === order.user)
-                      ?.fullname
+                    order.user?.fullname
                   }
                 </StyledTableCell>
                 <StyledTableCell>
