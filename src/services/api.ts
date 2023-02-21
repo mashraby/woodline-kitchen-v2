@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import { ICategory } from "../interfaces/categorys.interfaces";
 import { IFood } from "../interfaces/foods.interfaces";
 import { IOrder } from "../interfaces/orders.interfaces";
+import { IPayment } from "../interfaces/payments.interfacess";
 import { IRole } from "../interfaces/roles.interfaces";
 import { IPerson } from "../interfaces/users.interfaces";
 
@@ -83,4 +84,10 @@ export const postFood = (
 export const getOrders = (): Promise<Array<IOrder>>=> {
   return axios.get("/order")
     .then((res: AxiosResponse) => res.data)
+}
+
+// Payments Service //
+
+export const getPayments = (): Promise<Array<IPayment>> => {
+  return axios.get("/payment").then((res: AxiosResponse) => res.data)
 }

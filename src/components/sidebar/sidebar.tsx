@@ -25,6 +25,7 @@ import PeopleIcon from "@mui/icons-material/People";
 import KeyboardCommandKeyIcon from "@mui/icons-material/KeyboardCommandKey";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
 import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
+import PaymentIcon from '@mui/icons-material/Payment';
 
 const FlexWrapper = styledC.div`
   width: 100%;
@@ -267,6 +268,18 @@ export const MiniDrawer: React.FC = () => {
                 <InboxIcon />
               </ListItemIcon>
               <ListItemText primary={"Заказы"} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton
+              className={href === "/payments" ? "Mui-selected" : ""}
+              component={NavLink}
+              to="/payments"
+            >
+              <ListItemIcon>
+                <PaymentIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Платежи"} />
             </ListItemButton>
           </ListItem>
         </List>

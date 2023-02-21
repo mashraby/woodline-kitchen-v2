@@ -1,5 +1,6 @@
 {
   "name": "oshxona-project-with-typescript",
+  "author": "Mashrab Yo'ldashov",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
