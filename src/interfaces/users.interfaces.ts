@@ -33,3 +33,11 @@ export interface IOpenModalProps {
     text: string
     balance: number | undefined
 }
+export interface IOpenModalUserProps {
+    userId: string
+    openUser: boolean
+    userRole: string
+    setOpenUser: React.Dispatch<React.SetStateAction<boolean>>
+    text: string
+    balance: number | undefined
+}
