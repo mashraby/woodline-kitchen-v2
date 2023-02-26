@@ -63,7 +63,7 @@ export const PaymentsTable: React.FC<IPaymentsProps> = (props) => {
                     {accounting.formatNumber(payment.balance, 0, " ") + " so'm"}
                   </StyledTableCell>
                   <StyledTableCell>
-                    {payment.type ? "+" : "-" + accounting.formatNumber(payment.amount, 0, " ") + " so'm"}
+                    {accounting.formatNumber(payment.amount, 0, " ") + " so'm"}
                   </StyledTableCell>
                   <StyledTableCell>{payment.date}</StyledTableCell>
                 </StyledTableRow>

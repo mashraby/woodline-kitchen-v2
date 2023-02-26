@@ -36,7 +36,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export const OrdersTable: React.FC<IOrdersProps> = (props) => {
   const orders: IOrder[] = props.orders as any;
   const [users, setUsers] = useState<IPerson[]>([]);
-  const [foods, setFoods] = useState<IFood[]>([]);
+  const [myFoods, setMyFoods] = useState<IFood[]>([]);
   const { reload } = useContext(ReloadContext);
 
   useEffect(() => {
@@ -44,8 +44,9 @@ export const OrdersTable: React.FC<IOrdersProps> = (props) => {
   }, [reload]);
 
   useEffect(() => {
-    getFoods().then((data) => setFoods(data));
+    getFoods().then((data) => setMyFoods(data));
   }, []);
+
 
   return (
     <>
@@ -77,17 +78,13 @@ export const OrdersTable: React.FC<IOrdersProps> = (props) => {
                       <summary>Order foods</summary>
                       <ul>
                         {
-                          order.food?.map(f => (
-                            <li key={f._id}>
-                              {
-                                foods?.filter(food => food._id === f._id).map(fff => {
-                                  return (
-                                    <p key={fff._id}>{fff.name + " " + f.count + " ta"}</p>
-                                  )
-                                })
-                              }
-                            </li>
-                          ))
+                          order.foods.map((f) => myFoods.filter(mf => mf._id===f._id).map(fff => {
+                            return (
+                              <li>
+                                { fff.name + " " + f.count + " ta" }
+                              </li>
+                            )
+                          }))
                         }
                       </ul>
                     </details>

@@ -29,7 +29,6 @@ export const UsersPage: React.FC = () => {
   const [totalPage, setTotalPage] = useState<number>();
   const [page, setPage] = useState<number>(1)
   const [pageSize, setPageSize] = useState<number>(10)
-  const [open, setOpen] = useState<boolean>(false);
   const { reload } = useContext(ReloadContext);
 
   useEffect((): void => {
@@ -37,7 +36,7 @@ export const UsersPage: React.FC = () => {
       setUsers(data.users);
       setTotalPage(data.totalPages);
     });
-  }, [reload, page]);
+  }, [reload, page, pageSize]);
 
   const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
     setPage(page)
