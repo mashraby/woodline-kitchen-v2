@@ -19,7 +19,7 @@ export interface IOrder {
     _id: string
     user: IOrderUser
     comment: string
-    food: IOrderFood[]
+    foods: IOrderFood[]
     total_cost: number
     is_given: boolean
     is_canceled: boolean
