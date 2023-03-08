@@ -26,6 +26,7 @@ import KeyboardCommandKeyIcon from "@mui/icons-material/KeyboardCommandKey";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
 import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
 import PaymentIcon from '@mui/icons-material/Payment';
+import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 
 const FlexWrapper = styledC.div`
   width: 100%;
@@ -280,6 +281,18 @@ export const MiniDrawer: React.FC = () => {
                 <PaymentIcon />
               </ListItemIcon>
               <ListItemText primary={"Платежи"} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton
+              className={href === "/deedline" ? "Mui-selected" : ""}
+              component={NavLink}
+              to="/deedline"
+            >
+              <ListItemIcon>
+                <AccessAlarmIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Срок действия"} />
             </ListItemButton>
           </ListItem>
         </List>
