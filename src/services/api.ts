@@ -86,6 +86,13 @@ export const postFood = (
   });
 };
 
+export const updateFoodPrice = (id: string, cost: number | undefined): Promise<AxiosResponse> => {
+  return axios.put("/food", {
+    id, 
+    cost
+  })
+}
+
 // Orders Service //
 
 export const getOrders = (): Promise<Array<IOrder>>=> {

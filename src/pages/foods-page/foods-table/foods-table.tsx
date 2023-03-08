@@ -40,6 +40,7 @@ export const FoodsTable: React.FC<IFoodProps> = (props) => {
   const [ctgs, setCtgs] = useState<ICategory[]>([]);
   const [changeOpen, setChangeOpen] = useState<boolean>(false);
   const [oldCost, setOldCost] = useState<number>();
+  const [id,setId] = useState<string>("")
   const { reload } = useContext(ReloadContext);
 
   useEffect((): void => {
@@ -49,11 +50,13 @@ export const FoodsTable: React.FC<IFoodProps> = (props) => {
   const handleChangeClick = (food: IFood): void => {
     setChangeOpen(true);
     setOldCost(food.cost);
+    setId(food._id)
   };
 
   return (
     <>
       <ChangeFoodModal
+        foodId={id}
         oldCost={oldCost}
         changeOpen={changeOpen}
         setChangeOpen={setChangeOpen}
