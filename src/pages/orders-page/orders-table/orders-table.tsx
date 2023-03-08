@@ -47,6 +47,10 @@ export const OrdersTable: React.FC<IOrdersProps> = (props) => {
     getFoods().then((data) => setMyFoods(data));
   }, []);
 
+  console.log(users);
+  console.log(orders[0]?.user);
+  console.log(orders[0]?.foods);
+  
 
   return (
     <>
@@ -76,7 +80,7 @@ export const OrdersTable: React.FC<IOrdersProps> = (props) => {
                   {
                     <details>
                       <summary>Order foods</summary>
-                      <ul>
+                      <ul style={{padding: 0}}>
                         {
                           order.foods.map((f) => myFoods.filter(mf => mf._id===f._id).map(fff => {
                             return (
