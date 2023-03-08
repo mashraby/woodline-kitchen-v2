@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { ICategory } from "../interfaces/categorys.interfaces";
+import { IDeedline } from "../interfaces/deedline.interface";
 import { IFood } from "../interfaces/foods.interfaces";
 import { IOrder } from "../interfaces/orders.interfaces";
 import { IPayment } from "../interfaces/payments.interfacess";
@@ -104,4 +105,10 @@ export const getOrders = (): Promise<Array<IOrder>>=> {
 
 export const getPayments = (): Promise<Array<IPayment>> => {
   return axios.get("/payment").then((res: AxiosResponse) => res.data)
+}
+
+// Deedline Service // 
+
+export const getDeedlines = (): Promise<Array<IDeedline>> => {
+  return axios.get("/deadline").then((res: AxiosResponse) => res.data)
 }
