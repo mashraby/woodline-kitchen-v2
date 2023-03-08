@@ -8,6 +8,8 @@ import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 import { TextField, Typography } from "@mui/material";
 import { ReloadContext } from "../../../context/reload.context";
 import { IChangeFoodProps } from "../../../interfaces/foods.interfaces";
+import { updateFoodPrice } from "../../../services/api";
+import { toast } from "react-toastify";
 
 const style = {
   position: "absolute" as "absolute",
@@ -22,15 +24,29 @@ const style = {
 };
 
 export const ChangeFoodModal: React.FC<IChangeFoodProps> = (props) => {
-  const { changeOpen, setChangeOpen, oldCost } = props;
+  const { changeOpen, setChangeOpen, oldCost, foodId } = props;
   const handleClose = () => setChangeOpen(false);
   const [costEmpty, setCostEmty] = useState<boolean>(false);
-  const [cost, setCost] = useState<number>();
   const [newCost, setNewCost] = useState<number>();
   const { reload, setReload } = useContext(ReloadContext);
 
   const changeFoodPrice = (): void => {
-    console.log(newCost);
+    if (newCost !== undefined) {
+      setReload(!reload);
+      setChangeOpen(false);
+      updateFoodPrice(foodId, newCost)
+        .then((data) => {
+          if (data && data.status === 200) {
+            toast.success("Food narxi o'zgartirildi");
+          }
+        })
+        .catch((err) => {
+          if (err) {
+            toast.error("Muammo yuz berdi qayta urinib koring");
+          }
+        });
+    }
+    
   };
 
   return (

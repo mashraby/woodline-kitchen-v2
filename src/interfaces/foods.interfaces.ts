@@ -18,4 +18,5 @@ export interface IChangeFoodProps {
     changeOpen: boolean
     setChangeOpen: React.Dispatch<React.SetStateAction<boolean>>
     oldCost?: number
+    foodId: string
 }
