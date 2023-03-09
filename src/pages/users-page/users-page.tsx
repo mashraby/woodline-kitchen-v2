@@ -27,8 +27,8 @@ const FlexWrapper = styled.div`
 export const UsersPage: React.FC = () => {
   const [users, setUsers] = useState<IPerson[]>([]);
   const [totalPage, setTotalPage] = useState<number>();
-  const [page, setPage] = useState<number>(1)
-  const [pageSize, setPageSize] = useState<number>(10)
+  const [page, setPage] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(10);
   const { reload } = useContext(ReloadContext);
 
   useEffect((): void => {
@@ -38,8 +38,11 @@ export const UsersPage: React.FC = () => {
     });
   }, [reload, page, pageSize]);
 
-  const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
-    setPage(page)
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    page: number
+  ) => {
+    setPage(page);
   };
 
   return (
@@ -52,27 +55,29 @@ export const UsersPage: React.FC = () => {
               Пользователи
             </Typography>
 
-            <FormControl required sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel id="demo-simple-select-required-label">
-                size
-              </InputLabel>
-              <Select
-                defaultValue="10"
-                onChange={(e: SelectChangeEvent) => {
-                  setPageSize(+e.target.value)
-                }}
-                labelId="demo-simple-select-required-label"
-                id="demo-simple-select-required"
-                label="size *"
-              >
-                <MenuItem value={10}>10</MenuItem>
-                <MenuItem value={20}>20</MenuItem>
-                <MenuItem value={30}>30</MenuItem>
-              </Select>
-            </FormControl>
+            {users.length ? (
+              <FormControl required sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel id="demo-simple-select-required-label">
+                  size
+                </InputLabel>
+                <Select
+                  defaultValue="10"
+                  onChange={(e: SelectChangeEvent) => {
+                    setPageSize(+e.target.value);
+                  }}
+                  labelId="demo-simple-select-required-label"
+                  id="demo-simple-select-required"
+                  label="size *"
+                >
+                  <MenuItem value={10}>10</MenuItem>
+                  <MenuItem value={20}>20</MenuItem>
+                  <MenuItem value={30}>30</MenuItem>
+                </Select>
+              </FormControl>
+            ) : null}
           </FlexWrapper>
           <UsersTable users={users} />
-          {users ? (
+          {users.length ? (
             <Pagination
               onChange={handlePageChange}
               sx={{ mt: 5, display: "flex", justifyContent: "center" }}

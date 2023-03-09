@@ -88,7 +88,7 @@ export const FoodsTable: React.FC<IFoodProps> = (props) => {
                     <StyledTableCell>
                       <Button
                         onClick={() => handleChangeClick(food)}
-                        variant="outlined" 
+                        variant="contained" 
                       >
                         Изменить цену
                       </Button>

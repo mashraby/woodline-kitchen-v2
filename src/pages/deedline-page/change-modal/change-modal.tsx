@@ -7,6 +7,9 @@ import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/Send";
 import { TextField, Typography } from "@mui/material";
 import { IDeedlineModalProps } from "../../../interfaces/deedline.interface";
+import { updateDeedlines } from "../../../services/api";
+import { ReloadContext } from "../../../context/reload.context";
+import { toast } from "react-toastify";
 
 const style = {
   position: "absolute" as "absolute",
@@ -21,8 +24,33 @@ const style = {
 };
 
 export const ChangeDeedModal: React.FC<IDeedlineModalProps> = (props) => {
-  const { open, setOpen } = props;
+  const { open, setOpen, time: myTime, deedId } = props;
   const handleClose = () => setOpen(false);
+  const [time, setTime] = useState<number>();
+  const { reload, setReload } = useContext(ReloadContext);
+
+  const updateDeedline = () => {
+    if (time !== undefined) {
+      setReload(!reload);
+      updateDeedlines(deedId, time)
+        .then((data) => {
+          if (data && data.status === 200) {
+            toast.success("Deedline muddati muvaffaqiyatli o'zgartirildi");
+          }
+        })
+        .catch((err) => {
+          if (err) {
+            toast.error("Muddat o'zgarmadi qayta urinib ko'ring");
+          }
+        })
+        .finally(() => {
+          setTime(undefined)
+          setOpen(!open);
+        });
+    } else {
+      toast.warning("Hali vaqtni ozgartirmadingiz")
+    }
+  };
 
   return (
     <div>
@@ -47,14 +75,21 @@ export const ChangeDeedModal: React.FC<IDeedlineModalProps> = (props) => {
               Редактировать
             </Typography>
             <TextField
+              type="number"
+              onChange={(
+                e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+              ) => {
+                setTime(+e.target.value);
+              }}
+              defaultValue={myTime}
               required={true}
-              
               sx={{ my: 2, width: "100%" }}
               id={"outlined-basic"}
               label={"Редактировать"}
               variant="outlined"
             />
             <Button
+              onClick={updateDeedline}
               sx={{ width: "100%" }}
               variant="contained"
               endIcon={<SendIcon />}
