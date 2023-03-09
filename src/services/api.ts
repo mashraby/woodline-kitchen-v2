@@ -112,3 +112,10 @@ export const getPayments = (): Promise<Array<IPayment>> => {
 export const getDeedlines = (): Promise<Array<IDeedline>> => {
   return axios.get("/deadline").then((res: AxiosResponse) => res.data)
 }
+
+export const updateDeedlines = (id:string, time: number | undefined): Promise<AxiosResponse> => {
+  return axios.put("/deadline", {
+    id,
+    time
+  })
+}

@@ -10,4 +10,6 @@ export interface IDeedlineProps {
 export interface IDeedlineModalProps {
     open: boolean,
     setOpen: React.Dispatch<React.SetStateAction<boolean>>
+    deedId: string
+    time: number | undefined
 }

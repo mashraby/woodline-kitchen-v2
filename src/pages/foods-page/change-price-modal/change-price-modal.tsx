@@ -33,7 +33,6 @@ export const ChangeFoodModal: React.FC<IChangeFoodProps> = (props) => {
   const changeFoodPrice = (): void => {
     if (newCost !== undefined) {
       setReload(!reload);
-      setChangeOpen(false);
       updateFoodPrice(foodId, newCost)
         .then((data) => {
           if (data && data.status === 200) {
@@ -44,9 +43,14 @@ export const ChangeFoodModal: React.FC<IChangeFoodProps> = (props) => {
           if (err) {
             toast.error("Muammo yuz berdi qayta urinib koring");
           }
+        })
+        .finally(() => {
+          setNewCost(undefined);
+          setChangeOpen(false);
         });
+    } else {
+      toast.warning("Hali ovqat narxini o'zgartirmadingiz");
     }
-    
   };
 
   return (

@@ -37,11 +37,12 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export const DeedlineTable: React.FC<IDeedlineProps> = (props) => {
   const deedlines: IDeedline[] = props.deedlines as any;
   const [open, setOpen] = useState<boolean>(false)
-
+  const [oldTime, setOldTime] = useState<number>()
+  const [id, setId] = useState<string>("")
 
   return (
     <>
-      <ChangeDeedModal open={open} setOpen={setOpen} />
+      <ChangeDeedModal deedId={id} time={oldTime} open={open} setOpen={setOpen} />
 
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -53,14 +54,18 @@ export const DeedlineTable: React.FC<IDeedlineProps> = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {deedlines?.map((role, index) => (
-              <StyledTableRow key={role._id}>
+            {deedlines?.map((deed, index) => (
+              <StyledTableRow key={deed._id}>
                 <StyledTableCell component="th" scope="row">
                   {index + 1}
                 </StyledTableCell>
-                <StyledTableCell>{role.time + " minut"}</StyledTableCell>
+                <StyledTableCell>{deed.time + " minut"}</StyledTableCell>
                 <StyledTableCell>
-                  <Button onClick={() => setOpen(!open)} variant="contained">Редактировать</Button>
+                  <Button onClick={() => {
+                    setOldTime(deed.time)
+                    setId(deed._id)
+                    setOpen(!open)
+                  }} variant="contained">Редактировать</Button>
                 </StyledTableCell>
               </StyledTableRow>
             ))}
