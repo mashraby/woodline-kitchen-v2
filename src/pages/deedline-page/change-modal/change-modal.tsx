@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
-import SendIcon from "@mui/icons-material/Send";
+import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 import { TextField, Typography } from "@mui/material";
 import { IDeedlineModalProps } from "../../../interfaces/deedline.interface";
 import { updateDeedlines } from "../../../services/api";
@@ -92,7 +92,7 @@ export const ChangeDeedModal: React.FC<IDeedlineModalProps> = (props) => {
               onClick={updateDeedline}
               sx={{ width: "100%" }}
               variant="contained"
-              endIcon={<SendIcon />}
+              endIcon={<ChangeCircleIcon />}
             >
               Редактировать
             </Button>
