@@ -65,7 +65,7 @@ export const DeedlineTable: React.FC<IDeedlineProps> = (props) => {
                     setOldTime(deed.time)
                     setId(deed._id)
                     setOpen(!open)
-                  }} variant="contained">Редактировать</Button>
+                  }} variant="outlined">Редактировать</Button>
                 </StyledTableCell>
               </StyledTableRow>
             ))}

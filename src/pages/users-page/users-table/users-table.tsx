@@ -45,7 +45,7 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
   const [text, setText] = useState<string>("");
   const [userId, setUserId] = useState<string>("");
   const [balance, setBalance] = useState<number>(0);
-  const [userRole, setUserRole] = useState<string>("")
+  const [userRole, setUserRole] = useState<string>("");
 
   users &&
     users.forEach((e, i) => {
@@ -67,8 +67,8 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
   };
 
   const handleChangeUser = (user: IPerson): void => {
-    setOpenUser(true)
-    setUserRole(user.role)
+    setOpenUser(true);
+    setUserRole(user.role);
     setText(user.fullname);
     setUserId(user._id);
     setBalance(user.balance);
@@ -102,6 +102,7 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
               <StyledTableCell>Phone Number</StyledTableCell>
               <StyledTableCell>Balance</StyledTableCell>
               <StyledTableCell>Add Balance</StyledTableCell>
+              <StyledTableCell>Edit</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -117,13 +118,14 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
                   {accounting.formatNumber(user.balance, 0, " ") + " so'm"}
                 </StyledTableCell>
                 <StyledTableCell>
-                  <ButtonGroup
-                    variant="contained"
-                    aria-label="small outlined primary button group"
-                  >
-                    <Button onClick={() => handleRowClick(user)}>Добавить баланс</Button>
-                    <Button onClick={() => handleChangeUser(user)}>изменить</Button>
-                  </ButtonGroup>
+                  <Button variant="outlined" onClick={() => handleRowClick(user)}>
+                    Добавить баланс
+                  </Button>
+                </StyledTableCell>
+                <StyledTableCell>
+                  <Button variant="outlined" onClick={() => handleChangeUser(user)}>
+                    изменить
+                  </Button>
                 </StyledTableCell>
               </StyledTableRow>
             ))}
