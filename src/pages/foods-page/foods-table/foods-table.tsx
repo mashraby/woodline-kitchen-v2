@@ -14,6 +14,7 @@ import { Button } from "@mui/material";
 import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 import { ChangeFoodModal } from "../change-price-modal/change-price-modal";
 import { getCategory } from "../../../services/api";
+import accounting from "accounting";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -81,7 +82,7 @@ export const FoodsTable: React.FC<IFoodProps> = (props) => {
                       {index + 1}
                     </StyledTableCell>
                     <StyledTableCell>{food.name}</StyledTableCell>
-                    <StyledTableCell>{food.cost}</StyledTableCell>
+                    <StyledTableCell>{accounting.formatNumber(food.cost, 0, " ") + " so'm"}</StyledTableCell>
                     <StyledTableCell>
                       {ctgs.find((c) => c._id === food.category)?.name}
                     </StyledTableCell>

@@ -202,7 +202,6 @@ export const MiniDrawer: React.FC = () => {
       </AppBar>
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
-          
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "rtl" ? (
               <ChevronRightIcon />
