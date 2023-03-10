@@ -1,5 +1,12 @@
+interface IFood {
+    _id: string
+    name: string
+    cost: number
+}
+
 interface IOrderFood {
     _id: string
+    food: IFood
     count: number
 }
 

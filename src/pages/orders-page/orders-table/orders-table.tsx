@@ -12,6 +12,7 @@ import { useContext, useEffect, useState } from "react";
 import { ReloadContext } from "../../../context/reload.context";
 import { getFoods, getUsers } from "../../../services/api";
 import { IFood } from "../../../interfaces/foods.interfaces";
+import accounting from "accounting";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -47,11 +48,6 @@ export const OrdersTable: React.FC<IOrdersProps> = (props) => {
     getFoods().then((data) => setMyFoods(data));
   }, []);
 
-  console.log(users);
-  console.log(orders[0]?.user);
-  console.log(orders[0]?.foods);
-  
-
   return (
     <>
       <TableContainer component={Paper}>
@@ -80,22 +76,18 @@ export const OrdersTable: React.FC<IOrdersProps> = (props) => {
                   {
                     <details>
                       <summary>Order foods</summary>
-                      <ul style={{padding: 0}}>
                         {
-                          order.foods.map((f) => myFoods.filter(mf => mf._id===f._id).map(fff => {
-                            return (
-                              <li>
-                                { fff.name + " " + f.count + " ta" }
-                              </li>
-                            )
-                          }))
+                          order.foods.map((f) => (
+                            <p style={{margin: 0}}>
+                              {f.food.name + " " + f.count + " ta"}
+                            </p>
+                          ))
                         }
-                      </ul>
                     </details>
                   }
                 </StyledTableCell>
                 <StyledTableCell>
-                  {order.total_cost}
+                  {accounting.formatNumber(order.total_cost, 0, " ") + " so'm"}
                 </StyledTableCell>
                 <StyledTableCell>
                   <span style={{ 

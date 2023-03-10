@@ -1,11 +1,11 @@
 import React, { useContext, useState, useEffect } from "react";
 import { TextField, Typography, Button, Modal, Box } from "@mui/material";
 import { IOpenModalUserProps } from "../../../interfaces/users.interfaces";
-// import { postBalance } from "../../../services/api";
 import { getRoles } from "../../../services/api"
 import { IRole } from "../../../interfaces/roles.interfaces";
 import { ReloadContext } from "../../../context/reload.context";
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
+
 import { toast } from "react-toastify";
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -25,13 +25,14 @@ const style = {
 };
 
 export const BasicModalUser: React.FC<IOpenModalUserProps> = (props) => {
-  const { setOpenUser, openUser, text, userId, balance, userRole } = props;
+  const { setOpenUser, openUser, text, userId, userRole } = props;
   const handleClose = () => setOpenUser(false);
   const [empty, setEmpty] = useState<boolean>(false);
   const [changeUserName, setChangeUserName] = useState<string>(text);
   const { reload, setReload } = useContext(ReloadContext);
   const [newRole, setNewRole] = useState<string>('');
   const [roles, setRoles] = useState<IRole[]>([]);
+
 
   useEffect((): void => {
     getRoles().then((data) => {
@@ -43,21 +44,12 @@ export const BasicModalUser: React.FC<IOpenModalUserProps> = (props) => {
     setNewRole(event.target.value as string);
   };
 
-  useEffect(():void => {
-    setChangeUserName(text)
-  }, [text])
-  useEffect(():void => {
-    setNewRole(userRole)
-  }, [userRole])
-
   const handleChangeUser = (): void => {
     if(newRole == "" || changeUserName == "") {
       setEmpty(true);
     }else {
-      console.log(newRole,changeUserName );
+      console.log(newRole, changeUserName);
     }
-
-
   };
 
   return (
@@ -77,7 +69,7 @@ export const BasicModalUser: React.FC<IOpenModalUserProps> = (props) => {
           >
             {"Fullname: " + text}
           </Typography>
-          <TextField
+          {/* <TextField
             error={empty ? true : false}
             required={true}
             type="text"
@@ -92,16 +84,16 @@ export const BasicModalUser: React.FC<IOpenModalUserProps> = (props) => {
             id={empty ? "outlined-error" : "outlined-basic"}
             label={empty ? "Введите новое имя пользователя" : "Новое имя пользователя"}
             variant="outlined"
-          />
+          /> */}
 
           <FormControl sx={{ mb: 1.5 }} fullWidth>
-            <InputLabel id="demo-simple-select-label">Роль</InputLabel>
+            <InputLabel id="demo-simple-select-label">{!newRole ? roles?.find(e => e._id === userRole)?.title : "Роль"}</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               value={newRole}
               label="Роль"
-              defaultValue={userRole}
+              defaultValue={roles?.find(e => e._id === userRole)?._id}
               required={true}
               onChange={handleChange}
             >
@@ -121,7 +113,7 @@ export const BasicModalUser: React.FC<IOpenModalUserProps> = (props) => {
             onClick={handleChangeUser}
             sx={{ width: 1 }}
             variant="contained"
-            endIcon={<AddCircleOutlineIcon />}
+            endIcon={<ChangeCircleIcon />}
           >
             Изменить пользователя
           </Button>

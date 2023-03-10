@@ -44,7 +44,7 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
   const [openUser, setOpenUser] = useState<boolean>(false);
   const [text, setText] = useState<string>("");
   const [userId, setUserId] = useState<string>("");
-  const [balance, setBalance] = useState<number>();
+  const [balance, setBalance] = useState<number>(0);
   const [userRole, setUserRole] = useState<string>("")
 
   users &&
@@ -68,7 +68,7 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
 
   const handleChangeUser = (user: IPerson): void => {
     setOpenUser(true)
-    setUserRole(user.role._id)
+    setUserRole(user.role)
     setText(user.fullname);
     setUserId(user._id);
     setBalance(user.balance);
@@ -82,6 +82,7 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
         text={text}
         userId={userId}
         balance={balance}
+        setBalance={setBalance}
       />
       <BasicModalUser
         openUser={openUser}

@@ -10,7 +10,7 @@ export interface IPerson {
     telegram_id: number
     balance: number
     is_active: boolean
-    role: IRole
+    role: string
 }
 
 export interface IUsersPagination {
@@ -41,7 +41,8 @@ export interface IOpenModalProps {
     open: boolean
     setOpen: React.Dispatch<React.SetStateAction<boolean>>
     text: string
-    balance: number | undefined
+    balance: number
+    setBalance: React.Dispatch<React.SetStateAction<number>>
 }
 export interface IOpenModalUserProps {
     userId: string

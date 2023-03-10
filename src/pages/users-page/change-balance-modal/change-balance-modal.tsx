@@ -5,6 +5,7 @@ import { postBalance } from "../../../services/api";
 import { ReloadContext } from "../../../context/reload.context";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { toast } from "react-toastify";
+import accounting from "accounting";
 
 const style = {
   position: "absolute" as "absolute",
@@ -19,7 +20,7 @@ const style = {
 };
 
 export const BasicModal: React.FC<IOpenModalProps> = (props) => {
-  const { setOpen, open, text, userId, balance } = props;
+  const { setOpen, open, text, userId, balance, setBalance } = props;
   const handleClose = () => setOpen(false);
   const [empty, setEmpty] = useState<boolean>(false);
   const [changeBalance, setChangeBalance] = useState<number>();
@@ -27,7 +28,6 @@ export const BasicModal: React.FC<IOpenModalProps> = (props) => {
 
   const handleChangeBalance = (): void => {
     if (changeBalance !== undefined) {
-      // setReload(!reload);
       postBalance(userId, changeBalance, true)
         .then((res) => console.log(res))
         .finally((): void => {
@@ -64,7 +64,7 @@ export const BasicModal: React.FC<IOpenModalProps> = (props) => {
             variant="h6"
             component="h2"
           >
-            {"Balance: " + balance}
+            {"Balance: " + accounting.formatNumber(balance, 0, " ") + " so'm"}
           </Typography>
           <TextField
             error={empty ? true : false}
@@ -75,12 +75,13 @@ export const BasicModal: React.FC<IOpenModalProps> = (props) => {
             ): void => {
               setEmpty(false);
               setChangeBalance(+e.target.value);
+
             }}
             sx={{ width: 1, mb: 1.5 }}
             id={empty ? "outlined-error" : "outlined-basic"}
             label={empty ? "Введите значение" : "Добавить баланс"}
             variant="outlined"
-          />
+          />    
           <Button
             onClick={handleChangeBalance}
             sx={{ width: 1 }}
