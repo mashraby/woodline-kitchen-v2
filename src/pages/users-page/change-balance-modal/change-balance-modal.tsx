@@ -27,7 +27,7 @@ export const BasicModal: React.FC<IOpenModalProps> = (props) => {
 
   const handleChangeBalance = (): void => {
     if (changeBalance !== undefined) {
-      setReload(!reload);
+      // setReload(!reload);
       postBalance(userId, changeBalance, true)
         .then((res) => console.log(res))
         .finally((): void => {

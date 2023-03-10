@@ -25,9 +25,9 @@ import PeopleIcon from "@mui/icons-material/People";
 import KeyboardCommandKeyIcon from "@mui/icons-material/KeyboardCommandKey";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
 import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
-import PaymentIcon from '@mui/icons-material/Payment';
-import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import PaymentIcon from "@mui/icons-material/Payment";
+import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 
 const FlexWrapper = styledC.div`
   width: 100%;
@@ -202,6 +202,7 @@ export const MiniDrawer: React.FC = () => {
       </AppBar>
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
+          
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "rtl" ? (
               <ChevronRightIcon />
