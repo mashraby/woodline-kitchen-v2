@@ -4,6 +4,7 @@ import { IDeedline } from "../interfaces/deedline.interface";
 import { IFood } from "../interfaces/foods.interfaces";
 import { IOrder } from "../interfaces/orders.interfaces";
 import { IPayment } from "../interfaces/payments.interfacess";
+import { IProduct } from "../interfaces/products.interface";
 import { IRole } from "../interfaces/roles.interfaces";
 import { IPerson, IUsersPagination } from "../interfaces/users.interfaces";
 
@@ -25,10 +26,14 @@ export const getUsers = (): Promise<Array<IPerson>> => {
   return axios.get("/user").then((res) => res.data);
 };
 
-export const getUsersPagination = (page: number, size: number): Promise<IUsersPagination> => {
-  return axios.get(`/user/pagination/?page=${page}&size=${size}`)
-    .then(res => res.data)
-}
+export const getUsersPagination = (
+  page: number,
+  size: number
+): Promise<IUsersPagination> => {
+  return axios
+    .get(`/user/pagination/?page=${page}&size=${size}`)
+    .then((res) => res.data);
+};
 
 export const postBalance = (
   id: string,
@@ -44,7 +49,6 @@ export const postBalance = (
 };
 
 // Change user
-
 
 // Roles Service //
 export const getRoles = (): Promise<Array<IRole>> => {
@@ -87,35 +91,56 @@ export const postFood = (
   });
 };
 
-export const updateFoodPrice = (id: string, cost: number | undefined): Promise<AxiosResponse> => {
+export const updateFoodPrice = (
+  id: string,
+  cost: number | undefined
+): Promise<AxiosResponse> => {
   return axios.put("/food", {
-    id, 
-    cost
-  })
-}
+    id,
+    cost,
+  });
+};
 
 // Orders Service //
 
-export const getOrders = (): Promise<Array<IOrder>>=> {
-  return axios.get("/order")
-    .then((res: AxiosResponse) => res.data)
-}
+export const getOrders = (): Promise<Array<IOrder>> => {
+  return axios.get("/order").then((res: AxiosResponse) => res.data);
+};
 
 // Payments Service //
 
 export const getPayments = (): Promise<Array<IPayment>> => {
-  return axios.get("/payment").then((res: AxiosResponse) => res.data)
-}
+  return axios.get("/payment").then((res: AxiosResponse) => res.data);
+};
 
-// Deedline Service // 
+// Deedline Service //
 
 export const getDeedlines = (): Promise<Array<IDeedline>> => {
-  return axios.get("/deadline").then((res: AxiosResponse) => res.data)
-}
+  return axios.get("/deadline").then((res: AxiosResponse) => res.data);
+};
 
-export const updateDeedlines = (id:string, time: number | undefined): Promise<AxiosResponse> => {
+export const updateDeedlines = (
+  id: string,
+  time: number | undefined
+): Promise<AxiosResponse> => {
   return axios.put("/deadline", {
     id,
-    time
-  })
-}
+    time,
+  });
+};
+
+// Products Service //
+
+export const getProducts = (): Promise<Array<IProduct>> => {
+  return axios.get("/product").then((res: AxiosResponse) => res.data);
+};
+
+export const postProduct = (
+  name: string,
+  cost: number
+): Promise<AxiosResponse> => {
+  return axios.post("/product", {
+    name,
+    cost,
+  });
+};
