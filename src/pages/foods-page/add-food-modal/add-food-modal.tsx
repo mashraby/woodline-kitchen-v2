@@ -26,12 +26,18 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: "800px",
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
 };
+
+interface IInputProps {
+  id: number;
+  value: string;
+  amount: number;
+}
 
 export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
   const { open, setOpen } = props;
@@ -43,6 +49,13 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
   const [name, setName] = useState<string>("");
   const [cost, setCost] = useState<number>();
   const [selectedCtg, setSelectedCtg] = React.useState("");
+  const [inputs, setInputs] = useState<Array<IInputProps>>([
+    {
+      id: 1,
+      value: "",
+      amount: 0,
+    },
+  ]);
 
   const handleChange = (event: SelectChangeEvent) => {
     setCtgEmty(false);
@@ -57,6 +70,8 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
   }, [reload]);
 
   const handlePostFood = (): void => {
+    console.log(inputs);
+    
     if (name !== "" && cost !== ("" || undefined) && selectedCtg !== "") {
       setReload(!reload);
       postFood(name, cost, selectedCtg)
@@ -106,67 +121,128 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
             >
               Добавить еду
             </Typography>
-            <TextField
-              error={nameEmpty ? true : false}
-              onChange={(
-                e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-              ) => {
-                setNameEmty(false);
-                setName(e.target.value);
-              }}
-              sx={{ mt: 2, width: "100%" }}
-              id={nameEmpty ? "outlined-error" : "outlined-basic"}
-              label={nameEmpty ? "Введите значение" : "Напишите название еды"}
-              variant="outlined"
-            />
-            <TextField
-              error={costEmpty ? true : false}
-              type="number"
-              onChange={(
-                e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-              ) => {
-                setCostEmty(false);
-                setCost(+e.target.value);
-              }}
-              sx={{ my: 2, width: "100%" }}
-              id={costEmpty ? "outlined-error" : "outlined-basic"}
-              label={costEmpty ? "Введите значение" : "Напишите стоимость еды"}
-              variant="outlined"
-            />
-            <FormControl sx={{ mb: 2 }} fullWidth>
-              <InputLabel
-                id={
-                  ctgEmpty
-                    ? "demo-simple-select-error-label"
-                    : "demo-simple-select-label"
-                }
+            <Box sx={{ display: "flex", alignItems: "baseline", gap: "10px" }}>
+              <Box
+                sx={{
+                  width: "300px",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
               >
-                {ctgEmpty ? "Введите значение" : "Выберите категорию еды"}
-              </InputLabel>
-              <Select
-                error={ctgEmpty ? true : false}
-                labelId={
-                  ctgEmpty
-                    ? "demo-simple-select-error-label"
-                    : "demo-simple-select-label"
-                }
-                id={
-                  ctgEmpty ? "demo-simple-select-error" : "demo-simple-select"
-                }
-                value={selectedCtg}
-                label="Age"
-                onChange={handleChange}
-              >
-                {ctgs &&
-                  ctgs.map((c, i) => {
-                    return (
-                      <MenuItem key={i + 1} value={c._id}>
-                        {c.name}
-                      </MenuItem>
-                    );
-                  })}
-              </Select>
-            </FormControl>
+                <TextField
+                  error={nameEmpty ? true : false}
+                  onChange={(
+                    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+                  ) => {
+                    setNameEmty(false);
+                    setName(e.target.value);
+                  }}
+                  sx={{ mt: 2 }}
+                  id={nameEmpty ? "outlined-error" : "outlined-basic"}
+                  label={
+                    nameEmpty ? "Введите значение" : "Напишите название еды"
+                  }
+                  variant="outlined"
+                />
+                <TextField
+                  error={costEmpty ? true : false}
+                  type="number"
+                  onChange={(
+                    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+                  ) => {
+                    setCostEmty(false);
+                    setCost(+e.target.value);
+                  }}
+                  sx={{ my: 2 }}
+                  id={costEmpty ? "outlined-error" : "outlined-basic"}
+                  label={
+                    costEmpty ? "Введите значение" : "Напишите стоимость еды"
+                  }
+                  variant="outlined"
+                />
+                <FormControl sx={{ mb: 2 }}>
+                  <InputLabel
+                    id={
+                      ctgEmpty
+                        ? "demo-simple-select-error-label"
+                        : "demo-simple-select-label"
+                    }
+                  >
+                    {ctgEmpty ? "Введите значение" : "Выберите категорию еды"}
+                  </InputLabel>
+                  <Select
+                    error={ctgEmpty ? true : false}
+                    labelId={
+                      ctgEmpty
+                        ? "demo-simple-select-error-label"
+                        : "demo-simple-select-label"
+                    }
+                    id={
+                      ctgEmpty
+                        ? "demo-simple-select-error"
+                        : "demo-simple-select"
+                    }
+                    value={selectedCtg}
+                    label="Age"
+                    onChange={handleChange}
+                  >
+                    {ctgs &&
+                      ctgs.map((c, i) => {
+                        return (
+                          <MenuItem key={i + 1} value={c._id}>
+                            {c.name}
+                          </MenuItem>
+                        );
+                      })}
+                  </Select>
+                </FormControl>
+              </Box>
+              <Box sx={{ display: "flex", flexDirection: "column" }}>
+                {inputs &&
+                  inputs.map((e, i) => (
+                    <Box
+                      key={i}
+                      sx={{
+                        display: "flex",
+                        gap: "10px",
+                        mt: i === 0 ? "0px" : "15px",
+                      }}
+                    >
+                      <TextField
+                        onChange={(evt) => (e.value = evt.target.value)}
+                        sx={{ width: "250px" }}
+                        type="text"
+                        variant="outlined"
+                        label={`продукта ${i + 1}`}
+                      />
+                      <TextField
+                        onChange={(evt) => (e.amount = +evt.target.value)}
+                        sx={{ width: "150px" }}
+                        type="number"
+                        variant="outlined"
+                        label={`amount ${i + 1}`}
+                      />
+                    </Box>
+                  ))}
+                <Button
+                  onClick={() => {
+                    setInputs([
+                      {
+                        id: inputs[inputs.length - 1]?.id + 1,
+                        value: "",
+                        amount: 0,
+                      },
+                      ...inputs
+                    ]);
+                  }}
+                  sx={{ my: "15px" }}
+                  variant="outlined"
+                  fullWidth
+                >
+                  +
+                </Button>
+              </Box>
+            </Box>
             <Button
               onClick={handlePostFood}
               sx={{ width: "100%" }}
