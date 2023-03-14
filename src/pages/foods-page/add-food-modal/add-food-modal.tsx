@@ -6,6 +6,7 @@ import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/Send";
 import {
+  Autocomplete,
   FormControl,
   InputLabel,
   MenuItem,
@@ -16,10 +17,11 @@ import {
 import { ReloadContext } from "../../../context/reload.context";
 import { IAddFoodProps } from "../../../interfaces/foods.interfaces";
 import { ICategory } from "../../../interfaces/categorys.interfaces";
-import { getCategory, postFood } from "../../../services/api";
+import { getCategory, getProducts, postFood } from "../../../services/api";
 import { SelectChangeEvent } from "@mui/material/Select";
 import { toast } from "react-toastify";
 import { AxiosError, AxiosResponse } from "axios";
+import { IProduct } from "../../../interfaces/products.interface";
 
 const style = {
   position: "absolute" as "absolute",
@@ -34,8 +36,7 @@ const style = {
 };
 
 interface IInputProps {
-  id: number;
-  value: string;
+  product: string | undefined;
   amount: number;
 }
 
@@ -49,10 +50,10 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
   const [name, setName] = useState<string>("");
   const [cost, setCost] = useState<number>();
   const [selectedCtg, setSelectedCtg] = React.useState("");
+  const [products, setProducts] = useState<Array<IProduct>>([]);
   const [inputs, setInputs] = useState<Array<IInputProps>>([
     {
-      id: 1,
-      value: "",
+      product: "",
       amount: 0,
     },
   ]);
@@ -70,11 +71,8 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
   }, [reload]);
 
   const handlePostFood = (): void => {
-    console.log(inputs);
-    
     if (name !== "" && cost !== ("" || undefined) && selectedCtg !== "") {
-      setReload(!reload);
-      postFood(name, cost, selectedCtg)
+      postFood(name, cost, selectedCtg, [...inputs])
         .then((res: AxiosResponse) => {
           if (res.status === 200) {
             toast.success("Food yaratildi!");
@@ -86,6 +84,7 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
           setName("");
           setCost(undefined);
           setSelectedCtg("");
+          setReload(!reload);
         })
         .catch((err: AxiosError) => {
           if (err) {
@@ -98,6 +97,12 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
       setCtgEmty(true);
     }
   };
+
+  useEffect(() => {
+    getProducts().then((data) => {
+      setProducts(data);
+    });
+  }, [reload]);
 
   return (
     <div>
@@ -197,7 +202,7 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
                   </Select>
                 </FormControl>
               </Box>
-              <Box sx={{ display: "flex", flexDirection: "column" }}>
+              <Box sx={{ display: "flex", flexDirection: "column", gap: "15px" }}>
                 {inputs &&
                   inputs.map((e, i) => (
                     <Box
@@ -205,15 +210,30 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
                       sx={{
                         display: "flex",
                         gap: "10px",
-                        mt: i === 0 ? "0px" : "15px",
                       }}
                     >
-                      <TextField
-                        onChange={(evt) => (e.value = evt.target.value)}
+                      <Autocomplete
+                        onChange={(evt, newVal) => {
+                          e.product = newVal?.value;
+                        }}
+                        disablePortal
+                        id="combo-box-demo"
+                        options={products?.map((prod) => {
+                          return {
+                            label: prod.name,
+                            value: prod._id,
+                          };
+                        })}
                         sx={{ width: "250px" }}
-                        type="text"
-                        variant="outlined"
-                        label={`продукта ${i + 1}`}
+                        renderInput={(params) => (
+                          <TextField
+                            onChange={(evt) => {
+                              console.log(evt.target.value);
+                            }}
+                            {...params}
+                            label={`product ${i + 1}`}
+                          />
+                        )}
                       />
                       <TextField
                         onChange={(evt) => (e.amount = +evt.target.value)}
@@ -227,19 +247,18 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
                 <Button
                   onClick={() => {
                     setInputs([
+                      ...inputs,
                       {
-                        id: inputs[inputs.length - 1]?.id + 1,
-                        value: "",
+                        product: "",
                         amount: 0,
                       },
-                      ...inputs
                     ]);
                   }}
                   sx={{ my: "15px" }}
                   variant="outlined"
                   fullWidth
                 >
-                  +
+                  добавить больше продуктов +
                 </Button>
               </Box>
             </Box>

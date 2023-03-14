@@ -4,7 +4,7 @@ import { IDeedline } from "../interfaces/deedline.interface";
 import { IFood } from "../interfaces/foods.interfaces";
 import { IOrder } from "../interfaces/orders.interfaces";
 import { IPayment } from "../interfaces/payments.interfacess";
-import { IProduct } from "../interfaces/products.interface";
+import { ICreateProduct, IProduct } from "../interfaces/products.interface";
 import { IRole } from "../interfaces/roles.interfaces";
 import { IPerson, IUsersPagination } from "../interfaces/users.interfaces";
 
@@ -82,12 +82,14 @@ export const getFoods = (): Promise<Array<IFood>> => {
 export const postFood = (
   name: string,
   cost: number | undefined,
-  category: string
+  category: string,
+  products: Array<ICreateProduct>
 ): Promise<AxiosResponse> => {
-  return axios.post("/food", {
+  return axios.post("/food/withproduct", {
     name,
     cost,
     category,
+    products
   });
 };
 
