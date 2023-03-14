@@ -23,8 +23,3 @@ export interface IChangeFoodProps {
     oldCost?: number
     foodId: string
 }
-
-export interface IAddFoodProductProps {
-    prodOpen: boolean
-    setProdOpen: React.Dispatch<React.SetStateAction<boolean>>
-}

@@ -72,7 +72,7 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
 
   const handlePostFood = (): void => {
     if (name !== "" && cost !== ("" || undefined) && selectedCtg !== "") {
-      postFood(name, cost, selectedCtg, [...inputs])
+      postFood(name, cost, selectedCtg, inputs[0].product !== "" ? [...inputs] : [])
         .then((res: AxiosResponse) => {
           if (res.status === 200) {
             toast.success("Food yaratildi!");
