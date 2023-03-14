@@ -1,8 +1,11 @@
+import { IProduct } from "./products.interface"
+
 export interface IFood {
     _id: string
     name: string
     cost: number
     category: string
+    products: IProduct[]
 }
 
 export interface IFoodProps {
