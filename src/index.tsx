@@ -1,4 +1,5 @@
-
+// import dotenv from "dotenv";
+// dotenv.config();
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { App } from "./App";
@@ -9,9 +10,7 @@ import "@fontsource/roboto/700.css";
 import GlobalStyle from "./globals/GlobalStyle";
 import { BrowserRouter } from "react-router-dom";
 import { Provider as ReloadProvider } from "./context/reload.context";
-import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:9000";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
