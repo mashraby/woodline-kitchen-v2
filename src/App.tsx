@@ -15,6 +15,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { DeedlinePage } from "./pages/deedline-page/deedline-page";
 import { StatsPage } from "./pages/stats-page/stats-page";
 import { ProductsPage } from "./pages/products-page/products-page";
+import { LunchsPage } from "./pages/lunchs-page/lunchs-page";
 
 export const App: React.FC = () => {
   return (
@@ -33,6 +34,7 @@ export const App: React.FC = () => {
           <Route path="/payments" element={<PaymentsPage />} />
           <Route path="/deedline" element={<DeedlinePage />} />
           <Route path="/products" element={<ProductsPage />} />
+          <Route path="/lunchs" element={<LunchsPage />} />
           <Route path="/stats" element={<StatsPage />} />
         </Route>
       </Routes>

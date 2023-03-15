@@ -68,7 +68,7 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
 
   const handleChangeUser = (user: IPerson): void => {
     setOpenUser(true);
-    setUserRole(user.role);
+    setUserRole(user.role._id);
     setText(user.fullname);
     setUserId(user._id);
     setBalance(user.balance);
@@ -101,6 +101,7 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
               <StyledTableCell>Telegram ID</StyledTableCell>
               <StyledTableCell>Phone Number</StyledTableCell>
               <StyledTableCell>Balance</StyledTableCell>
+              <StyledTableCell>Role</StyledTableCell>
               <StyledTableCell>Add Balance</StyledTableCell>
               <StyledTableCell>Edit</StyledTableCell>
             </TableRow>
@@ -116,6 +117,9 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
                 <StyledTableCell>{user.phone_number}</StyledTableCell>
                 <StyledTableCell>
                   {accounting.formatNumber(user.balance, 0, " ") + " so'm"}
+                </StyledTableCell>
+                <StyledTableCell>
+                  {user.role.title}
                 </StyledTableCell>
                 <StyledTableCell>
                   <Button variant="outlined" onClick={() => handleRowClick(user)}>

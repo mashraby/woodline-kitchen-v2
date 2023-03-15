@@ -1,4 +1,5 @@
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
+import { instance } from "../config/axios.config";
 import { ICategory } from "../interfaces/categorys.interfaces";
 import { IDeedline } from "../interfaces/deedline.interface";
 import { IFood } from "../interfaces/foods.interfaces";
@@ -14,7 +15,7 @@ export const login = (
   username: string,
   password: string
 ): Promise<AxiosResponse> => {
-  return axios.post("/", {
+  return instance.post("/", {
     username,
     password,
   });
@@ -23,14 +24,14 @@ export const login = (
 // Users Service //
 
 export const getUsers = (): Promise<Array<IPerson>> => {
-  return axios.get("/user").then((res) => res.data);
+  return instance.get("/user").then((res) => res.data);
 };
 
 export const getUsersPagination = (
   page: number,
   size: number
 ): Promise<IUsersPagination> => {
-  return axios
+  return instance
     .get(`/user/pagination/?page=${page}&size=${size}`)
     .then((res) => res.data);
 };
@@ -40,7 +41,7 @@ export const postBalance = (
   amount: number | undefined,
   type: boolean
 ): Promise<AxiosResponse> => {
-  return axios.post("/user/balance", {
+  return instance.post("/user/balance", {
     id,
     amount,
     type,
@@ -48,15 +49,20 @@ export const postBalance = (
   });
 };
 
-// Change user
+export const updateUserRole = (id: string, role: string): Promise<AxiosResponse> => {
+  return instance.put("/user", {
+    id,
+    role,
+  });
+};
 
 // Roles Service //
 export const getRoles = (): Promise<Array<IRole>> => {
-  return axios.get("/role").then((res) => res.data);
+  return instance.get("/role").then((res) => res.data);
 };
 
 export const postRole = (title: string): Promise<AxiosResponse> => {
-  return axios.post("/role", {
+  return instance.post("/role", {
     title,
   });
 };
@@ -64,11 +70,11 @@ export const postRole = (title: string): Promise<AxiosResponse> => {
 // Food Category Service //
 
 export const getCategory = (): Promise<Array<ICategory>> => {
-  return axios.get("/category").then((res) => res.data);
+  return instance.get("/category").then((res) => res.data);
 };
 
 export const postCategory = (name: string): Promise<AxiosResponse> => {
-  return axios.post("/category", {
+  return instance.post("/category", {
     name,
   });
 };
@@ -76,7 +82,7 @@ export const postCategory = (name: string): Promise<AxiosResponse> => {
 // Foods Service //
 
 export const getFoods = (): Promise<Array<IFood>> => {
-  return axios.get("/food").then((res: AxiosResponse) => res.data);
+  return instance.get("/food").then((res: AxiosResponse) => res.data);
 };
 
 export const postFood = (
@@ -85,11 +91,11 @@ export const postFood = (
   category: string,
   products: Array<ICreateProduct>
 ): Promise<AxiosResponse> => {
-  return axios.post("/food/withproduct", {
+  return instance.post("/food/withproduct", {
     name,
     cost,
     category,
-    products
+    products,
   });
 };
 
@@ -97,7 +103,7 @@ export const updateFoodPrice = (
   id: string,
   cost: number | undefined
 ): Promise<AxiosResponse> => {
-  return axios.put("/food", {
+  return instance.put("/food", {
     id,
     cost,
   });
@@ -106,26 +112,26 @@ export const updateFoodPrice = (
 // Orders Service //
 
 export const getOrders = (): Promise<Array<IOrder>> => {
-  return axios.get("/order").then((res: AxiosResponse) => res.data);
+  return instance.get("/order").then((res: AxiosResponse) => res.data);
 };
 
 // Payments Service //
 
 export const getPayments = (): Promise<Array<IPayment>> => {
-  return axios.get("/payment").then((res: AxiosResponse) => res.data);
+  return instance.get("/payment").then((res: AxiosResponse) => res.data);
 };
 
 // Deedline Service //
 
 export const getDeedlines = (): Promise<Array<IDeedline>> => {
-  return axios.get("/deadline").then((res: AxiosResponse) => res.data);
+  return instance.get("/deadline").then((res: AxiosResponse) => res.data);
 };
 
 export const updateDeedlines = (
   id: string,
   time: number | undefined
 ): Promise<AxiosResponse> => {
-  return axios.put("/deadline", {
+  return instance.put("/deadline", {
     id,
     time,
   });
@@ -134,15 +140,21 @@ export const updateDeedlines = (
 // Products Service //
 
 export const getProducts = (): Promise<Array<IProduct>> => {
-  return axios.get("/product").then((res: AxiosResponse) => res.data);
+  return instance.get("/product").then((res: AxiosResponse) => res.data);
 };
 
 export const postProduct = (
   name: string,
   cost: number
 ): Promise<AxiosResponse> => {
-  return axios.post("/product", {
+  return instance.post("/product", {
     name,
     cost,
   });
+};
+
+// Lunchs Service //
+
+export const getLunchs = () => {
+  return instance.get("/trip").then((res: AxiosResponse) => res.data);
 };
