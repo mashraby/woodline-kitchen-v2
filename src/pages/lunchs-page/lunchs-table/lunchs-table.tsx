@@ -7,9 +7,6 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { ILunch, ILunchsProps } from "../../../interfaces/lunchs.interfaces";
-import { useEffect, useState } from "react";
-import { IPerson } from "../../../interfaces/users.interfaces";
-import { getUsers } from "../../../services/api";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -33,13 +30,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export const LunchsTable: React.FC<ILunchsProps> = (props) => {
   const lunchs: ILunch[] = props.lunchs as any;
-  const [users, setUsers] = useState<IPerson[]>([]);
-
-  useEffect(() => {
-    getUsers().then((data) => {
-      setUsers(data);
-    });
-  }, []);
 
   return (
     <>
@@ -62,30 +52,8 @@ export const LunchsTable: React.FC<ILunchsProps> = (props) => {
                 </StyledTableCell>
                 <StyledTableCell>{lunch.food.name}</StyledTableCell>
                 <StyledTableCell>{lunch.food.cost}</StyledTableCell>
-                <StyledTableCell>
-                  <details>
-                    <summary>Agree Users</summary>
-                    {lunch.agree_users.map((obj) =>
-                      users
-                        .filter((usr) => usr._id === obj._id)
-                        .map((myuser) => {
-                          return <p>{myuser.fullname}</p>;
-                        })
-                    )}
-                  </details>
-                </StyledTableCell>
-                <StyledTableCell>
-                  <details>
-                    <summary>Disagree Users</summary>
-                    {lunch.disagree.map((obj) =>
-                      users
-                        .filter((usr) => usr._id === obj._id)
-                        .map((myuser) => {
-                          return <p>{myuser.fullname}</p>;
-                        })
-                    )}
-                  </details>
-                </StyledTableCell>
+                <StyledTableCell>{lunch.agree_users.length}</StyledTableCell>
+                <StyledTableCell>{lunch.disagree.length}</StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>

@@ -187,6 +187,7 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
                     onChange={() => myChangeFn(user)}
                     control={
                       <IOSSwitch
+                        checked={user.is_verified}
                         sx={{ m: 1 }}
                         defaultChecked={user.is_verified ? true : false}
                       />
