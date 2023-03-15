@@ -11,6 +11,7 @@ export interface IPerson {
   balance: number;
   is_active: boolean;
   role: IRole;
+  is_verified: boolean;
 }
 
 export interface IUsersPagination {

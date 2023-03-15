@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   IPerson,
   IRow,
@@ -14,8 +14,10 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Button, ButtonGroup } from "@mui/material";
+import { Button, FormControlLabel, Switch, SwitchProps } from "@mui/material";
 import accounting from "accounting";
+import { updateUserStatus } from "../../../services/api";
+import { ReloadContext } from "../../../context/reload.context";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -37,6 +39,57 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
+const IOSSwitch = styled((props: SwitchProps) => (
+  <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
+))(({ theme }) => ({
+  width: 42,
+  height: 26,
+  padding: 0,
+  "& .MuiSwitch-switchBase": {
+    padding: 0,
+    margin: 2,
+    transitionDuration: "300ms",
+    "&.Mui-checked": {
+      transform: "translateX(16px)",
+      color: "#fff",
+      "& + .MuiSwitch-track": {
+        backgroundColor: theme.palette.mode === "dark" ? "#2ECA45" : "#65C466",
+        opacity: 1,
+        border: 0,
+      },
+      "&.Mui-disabled + .MuiSwitch-track": {
+        opacity: 0.5,
+      },
+    },
+    "&.Mui-focusVisible .MuiSwitch-thumb": {
+      color: "#33cf4d",
+      border: "6px solid #fff",
+    },
+    "&.Mui-disabled .MuiSwitch-thumb": {
+      color:
+        theme.palette.mode === "light"
+          ? theme.palette.grey[100]
+          : theme.palette.grey[600],
+    },
+    "&.Mui-disabled + .MuiSwitch-track": {
+      opacity: theme.palette.mode === "light" ? 0.7 : 0.3,
+    },
+  },
+  "& .MuiSwitch-thumb": {
+    boxSizing: "border-box",
+    width: 22,
+    height: 22,
+  },
+  "& .MuiSwitch-track": {
+    borderRadius: 26 / 2,
+    backgroundColor: theme.palette.mode === "light" ? "#E9E9EA" : "#39393D",
+    opacity: 1,
+    transition: theme.transitions.create(["background-color"], {
+      duration: 500,
+    }),
+  },
+}));
+
 export const UsersTable: React.FC<UsersTableProps> = (props) => {
   const rows: IRow[] = [];
   const users: IPerson[] = props.users as any;
@@ -46,6 +99,8 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
   const [userId, setUserId] = useState<string>("");
   const [balance, setBalance] = useState<number>(0);
   const [userRole, setUserRole] = useState<string>("");
+
+  const { reload, setReload } = useContext(ReloadContext);
 
   users &&
     users.forEach((e, i) => {
@@ -72,6 +127,13 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
     setText(user.fullname);
     setUserId(user._id);
     setBalance(user.balance);
+  };
+
+  const myChangeFn = (user: IPerson) => {
+    setReload(!reload);
+    updateUserStatus(user._id, !user.is_verified).then((res) => {
+      console.log(res);
+    });
   };
 
   return (
@@ -102,6 +164,7 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
               <StyledTableCell>Phone Number</StyledTableCell>
               <StyledTableCell>Balance</StyledTableCell>
               <StyledTableCell>Role</StyledTableCell>
+              <StyledTableCell>Change Status</StyledTableCell>
               <StyledTableCell>Add Balance</StyledTableCell>
               <StyledTableCell>Edit</StyledTableCell>
             </TableRow>
@@ -118,16 +181,32 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
                 <StyledTableCell>
                   {accounting.formatNumber(user.balance, 0, " ") + " so'm"}
                 </StyledTableCell>
+                <StyledTableCell>{user.role.title}</StyledTableCell>
                 <StyledTableCell>
-                  {user.role.title}
+                  <FormControlLabel
+                    onChange={() => myChangeFn(user)}
+                    control={
+                      <IOSSwitch
+                        sx={{ m: 1 }}
+                        defaultChecked={user.is_verified ? true : false}
+                      />
+                    }
+                    label={user.is_verified ? "verify" : "not verify"}
+                  />
                 </StyledTableCell>
                 <StyledTableCell>
-                  <Button variant="outlined" onClick={() => handleRowClick(user)}>
+                  <Button
+                    variant="outlined"
+                    onClick={() => handleRowClick(user)}
+                  >
                     Добавить баланс
                   </Button>
                 </StyledTableCell>
                 <StyledTableCell>
-                  <Button variant="outlined" onClick={() => handleChangeUser(user)}>
+                  <Button
+                    variant="outlined"
+                    onClick={() => handleChangeUser(user)}
+                  >
                     изменить
                   </Button>
                 </StyledTableCell>

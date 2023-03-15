@@ -3,6 +3,7 @@ import { instance } from "../config/axios.config";
 import { ICategory } from "../interfaces/categorys.interfaces";
 import { IDeedline } from "../interfaces/deedline.interface";
 import { IFood } from "../interfaces/foods.interfaces";
+import { ILunch } from "../interfaces/lunchs.interfaces";
 import { IOrder } from "../interfaces/orders.interfaces";
 import { IPayment } from "../interfaces/payments.interfacess";
 import { ICreateProduct, IProduct } from "../interfaces/products.interface";
@@ -49,10 +50,20 @@ export const postBalance = (
   });
 };
 
-export const updateUserRole = (id: string, role: string): Promise<AxiosResponse> => {
+export const updateUserRole = (
+  id: string,
+  role: string
+): Promise<AxiosResponse> => {
   return instance.put("/user", {
     id,
     role,
+  });
+};
+
+export const updateUserStatus = (user: string, type: boolean) => {
+  return instance.put("/user/status", {
+    user,
+    type,
   });
 };
 
@@ -155,6 +166,6 @@ export const postProduct = (
 
 // Lunchs Service //
 
-export const getLunchs = () => {
+export const getLunchs = (): Promise<Array<ILunch>> => {
   return instance.get("/trip").then((res: AxiosResponse) => res.data);
 };
