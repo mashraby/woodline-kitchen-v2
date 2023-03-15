@@ -77,7 +77,7 @@ export const UsersPage: React.FC = () => {
             ) : null}
           </FlexWrapper>
           <UsersTable users={users} />
-          {users.length ? (
+          {users.length && users.length > pageSize ? (
             <Pagination
               onChange={handlePageChange}
               sx={{ mt: 5, display: "flex", justifyContent: "center" }}
