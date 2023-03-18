@@ -45,10 +45,8 @@ export const BasicModalUser: React.FC<IOpenModalUserProps> = (props) => {
   };
 
   const handleChangeUser = (): void => {
-    console.log(newRole.length);
-
     if (newRole == "") {
-      setEmpty(true);
+      toast.warning("Role ni hali o'zgartirmadingiz");
     } else {
       updateUserRole(userId, newRole)
         .then((res: AxiosResponse) => {
@@ -58,7 +56,8 @@ export const BasicModalUser: React.FC<IOpenModalUserProps> = (props) => {
         })
         .finally(() => {
           setReload(!reload);
-          setOpenUser(false)
+          setOpenUser(false);
+          setNewRole("");
         })
         .catch((err) => {
           if (err) {

@@ -11,9 +11,9 @@ import { useContext, useEffect, useState } from "react";
 import { ICategory } from "../../../interfaces/categorys.interfaces";
 import { ReloadContext } from "../../../context/reload.context";
 import { Button } from "@mui/material";
-import { ChangeFoodModal } from "../change-price-modal/change-price-modal";
 import { getCategory } from "../../../services/api";
 import accounting from "accounting";
+import { Link } from "react-router-dom";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -38,30 +38,15 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export const FoodsTable: React.FC<IFoodProps> = (props) => {
   const foods: IFood[] = props.foods as any;
   const [ctgs, setCtgs] = useState<ICategory[]>([]);
-  const [changeOpen, setChangeOpen] = useState<boolean>(false);
-  const [oldCost, setOldCost] = useState<number>();
-  const [id, setId] = useState<string>("");
+
   const { reload } = useContext(ReloadContext);
 
   useEffect((): void => {
     getCategory().then((data) => setCtgs(data));
   }, [reload]);
 
-  const handleChangeClick = (food: IFood): void => {
-    setChangeOpen(true);
-    setOldCost(food.cost);
-    setId(food._id);
-  };
-
   return (
     <>
-      <ChangeFoodModal
-        foodId={id}
-        oldCost={oldCost}
-        changeOpen={changeOpen}
-        setChangeOpen={setChangeOpen}
-      />
-
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
@@ -70,7 +55,7 @@ export const FoodsTable: React.FC<IFoodProps> = (props) => {
               <StyledTableCell>Food Name</StyledTableCell>
               <StyledTableCell>Food Cost</StyledTableCell>
               <StyledTableCell>Food Category</StyledTableCell>
-              <StyledTableCell>Change Cost</StyledTableCell>
+              <StyledTableCell>Edit</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -88,13 +73,11 @@ export const FoodsTable: React.FC<IFoodProps> = (props) => {
                     <StyledTableCell>
                       {ctgs.find((c) => c._id === food.category)?.name}
                     </StyledTableCell>
+
                     <StyledTableCell>
-                      <Button
-                        variant="outlined"
-                        onClick={() => handleChangeClick(food)}
-                      >
-                        Изменить цену
-                      </Button>
+                      <Link to={`/foods/${food._id}`}>
+                        <Button variant="outlined">Изменить</Button>
+                      </Link>
                     </StyledTableCell>
                   </StyledTableRow>
                 );

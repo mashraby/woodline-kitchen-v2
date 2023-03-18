@@ -55,36 +55,32 @@ export const UsersPage: React.FC = () => {
               Пользователи
             </Typography>
 
-            {users.length ? (
-              <FormControl required sx={{ m: 1, minWidth: 120 }}>
-                <InputLabel id="demo-simple-select-required-label">
-                  size
-                </InputLabel>
-                <Select
-                  defaultValue="10"
-                  onChange={(e: SelectChangeEvent) => {
-                    setPageSize(+e.target.value);
-                  }}
-                  labelId="demo-simple-select-required-label"
-                  id="demo-simple-select-required"
-                  label="size *"
-                >
-                  <MenuItem value={10}>10</MenuItem>
-                  <MenuItem value={20}>20</MenuItem>
-                  <MenuItem value={30}>30</MenuItem>
-                </Select>
-              </FormControl>
-            ) : null}
+            <FormControl required sx={{ m: 1, minWidth: 120 }}>
+              <InputLabel id="demo-simple-select-required-label">
+                size
+              </InputLabel>
+              <Select
+                defaultValue="10"
+                onChange={(e: SelectChangeEvent) => {
+                  setPageSize(+e.target.value);
+                }}
+                labelId="demo-simple-select-required-label"
+                id="demo-simple-select-required"
+                label="size *"
+              >
+                <MenuItem value={10}>10</MenuItem>
+                <MenuItem value={20}>20</MenuItem>
+                <MenuItem value={30}>30</MenuItem>
+              </Select>
+            </FormControl>
           </FlexWrapper>
           <UsersTable users={users} />
-          {users.length && users.length > pageSize ? (
-            <Pagination
-              onChange={handlePageChange}
-              sx={{ mt: 5, display: "flex", justifyContent: "center" }}
-              count={totalPage}
-              color="primary"
-            />
-          ) : null}
+          <Pagination
+            onChange={handlePageChange}
+            sx={{ mt: 5, display: "flex", justifyContent: "center" }}
+            count={totalPage}
+            color="primary"
+          />
         </Box>
       </Box>
     </>

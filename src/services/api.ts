@@ -2,10 +2,13 @@ import { AxiosResponse } from "axios";
 import { instance } from "../config/axios.config";
 import { ICategory } from "../interfaces/categorys.interfaces";
 import { IDeedline } from "../interfaces/deedline.interface";
-import { IFood } from "../interfaces/foods.interfaces";
+import { IFood, IFoodById } from "../interfaces/foods.interfaces";
 import { ILunch } from "../interfaces/lunchs.interfaces";
 import { IOrder } from "../interfaces/orders.interfaces";
-import { IPayment } from "../interfaces/payments.interfacess";
+import {
+  IPayment,
+  IPaymentPagination,
+} from "../interfaces/payments.interfacess";
 import { ICreateProduct, IProduct } from "../interfaces/products.interface";
 import { IRole } from "../interfaces/roles.interfaces";
 import { IPerson, IUsersPagination } from "../interfaces/users.interfaces";
@@ -120,6 +123,12 @@ export const updateFoodPrice = (
   });
 };
 
+export const foodById = (id: string): Promise<IFoodById> => {
+  return instance
+    .get(`/food/order/${id}`)
+    .then((res: AxiosResponse) => res.data);
+};
+
 // Orders Service //
 
 export const getOrders = (): Promise<Array<IOrder>> => {
@@ -130,6 +139,15 @@ export const getOrders = (): Promise<Array<IOrder>> => {
 
 export const getPayments = (): Promise<Array<IPayment>> => {
   return instance.get("/payment").then((res: AxiosResponse) => res.data);
+};
+
+export const getPaginationPayments = (
+  page: number,
+  size: number
+): Promise<IPaymentPagination> => {
+  return instance
+    .get(`/payment/pagination?page=${page}&size=${size}`)
+    .then((res: AxiosResponse) => res.data);
 };
 
 // Deedline Service //
@@ -161,6 +179,56 @@ export const postProduct = (
   return instance.post("/product", {
     name,
     cost,
+  });
+};
+
+export const putFoodsProduct = (
+  food: string,
+  product: string,
+  amount: number
+) => {
+  return instance.put("/food/product", {
+    food,
+    product,
+    amount,
+  });
+};
+
+export const addProductById = (
+  food: string,
+  product: string,
+  amount: number
+): Promise<AxiosResponse> => {
+  return instance.post("/food/add", {
+    food,
+    product,
+    amount,
+  });
+};
+
+// export const deleteProductById = (
+//   id: string,
+//   product: string,
+//   amount: number
+// ): Promise<AxiosResponse> => {
+//   return instance.delete("/food/del", {
+//     food: id,
+//     product,
+//     amount
+//   });
+// };
+
+export const deleteProductById = (
+  food: string,
+  product: string,
+  amount: number
+): Promise<AxiosResponse> => {
+  return instance.delete("/food/del", {
+    data: {
+      food: food,
+      product: product,
+      amount: amount,
+    },
   });
 };
 

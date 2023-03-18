@@ -11,9 +11,6 @@ import {
   IPaymentsProps,
 } from "../../../interfaces/payments.interfacess";
 import accounting from "accounting";
-import { useEffect, useState } from "react";
-import { IPerson } from "../../../interfaces/users.interfaces";
-import { getUsers } from "../../../services/api";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -37,8 +34,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export const PaymentsTable: React.FC<IPaymentsProps> = (props) => {
   const payments: IPayment[] = props.payments as any;
-
-  console.log(payments);
+  const size: number = props.size;
+  const page: number = props.page;
 
   return (
     <>

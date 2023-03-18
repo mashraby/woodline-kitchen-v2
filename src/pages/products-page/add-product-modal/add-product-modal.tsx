@@ -118,7 +118,7 @@ export const AddProductModal: React.FC<IAddProductProps> = (props) => {
               variant="contained"
               endIcon={<SendIcon />}
             >
-              Добавить роль
+              Добавить продукты
             </Button>
           </Box>
         </Fade>
