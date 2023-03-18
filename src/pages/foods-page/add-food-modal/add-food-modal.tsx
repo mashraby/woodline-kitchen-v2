@@ -72,7 +72,12 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
 
   const handlePostFood = (): void => {
     if (name !== "" && cost !== ("" || undefined) && selectedCtg !== "") {
-      postFood(name, cost, selectedCtg, inputs[0].product !== "" ? [...inputs] : [])
+      postFood(
+        name,
+        cost,
+        selectedCtg,
+        inputs[0].product !== "" ? [...inputs] : []
+      )
         .then((res: AxiosResponse) => {
           if (res.status === 200) {
             toast.success("Food yaratildi!");
@@ -103,6 +108,14 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
       setProducts(data);
     });
   }, [reload]);
+
+  const handleFocus = (e: any, i: number) => {
+    if (e.ctrlKey && e.key === "x") {
+      if (inputs.length > 1) {
+        setInputs(inputs?.filter((_, index) => index !== i));
+      }
+    }
+  };
 
   return (
     <div>
@@ -202,17 +215,20 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
                   </Select>
                 </FormControl>
               </Box>
-              <Box sx={{ display: "flex", flexDirection: "column", gap: "15px" }}>
+              <Box
+                sx={{ display: "flex", flexDirection: "column", gap: "15px" }}
+              >
                 {inputs &&
                   inputs.map((e, i) => (
                     <Box
-                      key={i}
+                      key={i + 13}
                       sx={{
                         display: "flex",
                         gap: "10px",
                       }}
                     >
                       <Autocomplete
+                        onKeyDown={(evt) => handleFocus(evt, i)}
                         onChange={(evt, newVal) => {
                           e.product = newVal?.value;
                         }}
@@ -236,6 +252,7 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
                         )}
                       />
                       <TextField
+                        onKeyDown={(evt) => handleFocus(evt, i)}                        
                         onChange={(evt) => (e.amount = +evt.target.value)}
                         sx={{ width: "150px" }}
                         type="number"

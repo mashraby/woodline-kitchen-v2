@@ -16,11 +16,14 @@ import { DeedlinePage } from "./pages/deedline-page/deedline-page";
 import { StatsPage } from "./pages/stats-page/stats-page";
 import { ProductsPage } from "./pages/products-page/products-page";
 import { LunchsPage } from "./pages/lunchs-page/lunchs-page";
+import { FoodById } from "./pages/food-by-id/food-by-id";
 
 export const App: React.FC = () => {
+  console.log(process.env.BASE_URL);
+
   return (
     <div className="App">
-      <ToastContainer autoClose={3000} />
+      <ToastContainer autoClose={5000} />
       <Routes>
         <Route path="/" element={<Public />}>
           <Route path="/login" element={<AuthPage />} />
@@ -29,6 +32,7 @@ export const App: React.FC = () => {
           <Route path="/users" element={<UsersPage />} />
           <Route path="/roles" element={<RolesPage />} />
           <Route path="/foods" element={<FoodsPage />} />
+          <Route path="/foods/:foodId" element={<FoodById />} />
           <Route path="/food-category" element={<FoodCategoryPage />} />
           <Route path="/orders" element={<OrdersPage />} />
           <Route path="/payments" element={<PaymentsPage />} />

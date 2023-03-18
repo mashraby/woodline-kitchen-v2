@@ -14,4 +14,14 @@ export interface IPayment {
 
 export interface IPaymentsProps {
     payments?: IPayment[]
+    size: number
+    page: number
 }
+
+export interface IPaymentPagination {
+    payments: IPayment[];
+    currentPage: number;
+    totalPages: number;
+    totalUsers: number;
+    usersOnPage: number;
+  }
