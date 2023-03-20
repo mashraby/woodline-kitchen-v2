@@ -4,7 +4,7 @@ import { ICategory } from "../interfaces/categorys.interfaces";
 import { IDeedline } from "../interfaces/deedline.interface";
 import { IFood, IFoodById } from "../interfaces/foods.interfaces";
 import { ILunch } from "../interfaces/lunchs.interfaces";
-import { IOrder } from "../interfaces/orders.interfaces";
+import { IOrder, IOrderPagination } from "../interfaces/orders.interfaces";
 import {
   IPayment,
   IPaymentPagination,
@@ -135,6 +135,10 @@ export const getOrders = (): Promise<Array<IOrder>> => {
   return instance.get("/order").then((res: AxiosResponse) => res.data);
 };
 
+export const getPaginationOrders = (page: number, size: number): Promise<IOrderPagination> => {
+  return instance.get(`/order/pagination?page=${page}&size=${size}`).then((res: AxiosResponse) => res.data)
+}
+
 // Payments Service //
 
 export const getPayments = (): Promise<Array<IPayment>> => {
@@ -205,18 +209,6 @@ export const addProductById = (
     amount,
   });
 };
-
-// export const deleteProductById = (
-//   id: string,
-//   product: string,
-//   amount: number
-// ): Promise<AxiosResponse> => {
-//   return instance.delete("/food/del", {
-//     food: id,
-//     product,
-//     amount
-//   });
-// };
 
 export const deleteProductById = (
   food: string,
