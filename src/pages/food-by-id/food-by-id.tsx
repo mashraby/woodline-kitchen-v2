@@ -187,6 +187,7 @@ export const FoodById: React.FC = () => {
                   Продукт питания
                 </Typography>
                 <Button
+                  disabled={food?.category.name === "DRINKS" ? true : false}
                   onClick={() => setNewProdOpen(true)}
                   variant="contained"
                 >
@@ -194,51 +195,57 @@ export const FoodById: React.FC = () => {
                 </Button>
               </Box>
               <Grid item xs={12} md={6}>
-                <List sx={style} component="nav" aria-label="mailbox folders">
-                  {food?.products.map((prod: any) => {
-                    return (
-                      <>
-                        <ListItem
-                          key={prod._id}
-                          sx={{
-                            display: "flex",
-                            gap: "20px",
-                          }}
-                        >
-                          <ListItemText primary={prod.product.name} />
-                          <ListItemText
-                            ref={editableRef}
-                            onBlur={(e) => {
-                              if (!editable) {
-                                console.log(e.target.textContent);
-                              }
+                {food?.category.name === "DRINKS" ? (
+                  <Typography variant="h6" sx={{textAlign: "center"}}>
+                    Bu foodga product qo'sha olmaysiz 
+                  </Typography>
+                ) : (
+                  <List sx={style} component="nav" aria-label="mailbox folders">
+                    {food?.products.map((prod: any) => {
+                      return (
+                        <>
+                          <ListItem
+                            key={prod._id}
+                            sx={{
+                              display: "flex",
+                              gap: "20px",
                             }}
-                            contentEditable={editable}
-                            sx={
-                              editable
-                                ? { border: "1px solid black" }
-                                : { border: "none" }
-                            }
-                            primary={prod.amount}
-                          />
-                          <Button
-                            onClick={() => EditProduct(prod._id, prod.amount)}
                           >
-                            {editable ? <CheckIcon /> : <EditIcon />}
-                          </Button>
-                          <Button
-                            onClick={() =>
-                              handleDeleteProduct(prod._id, prod.amount)
-                            }
-                          >
-                            <DeleteIcon />
-                          </Button>
-                        </ListItem>
-                        <Divider />
-                      </>
-                    );
-                  })}
-                </List>
+                            <ListItemText primary={prod.product.name} />
+                            <ListItemText
+                              ref={editableRef}
+                              onBlur={(e) => {
+                                if (!editable) {
+                                  console.log(e.target.textContent);
+                                }
+                              }}
+                              contentEditable={editable}
+                              sx={
+                                editable
+                                  ? { border: "1px solid black" }
+                                  : { border: "none" }
+                              }
+                              primary={prod.amount}
+                            />
+                            <Button
+                              onClick={() => EditProduct(prod._id, prod.amount)}
+                            >
+                              {editable ? <CheckIcon /> : <EditIcon />}
+                            </Button>
+                            <Button
+                              onClick={() =>
+                                handleDeleteProduct(prod._id, prod.amount)
+                              }
+                            >
+                              <DeleteIcon />
+                            </Button>
+                          </ListItem>
+                          <Divider />
+                        </>
+                      );
+                    })}
+                  </List>
+                )}
               </Grid>
             </Box>
           </Box>

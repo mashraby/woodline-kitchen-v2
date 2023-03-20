@@ -181,7 +181,9 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
                 <StyledTableCell>
                   {accounting.formatNumber(user.balance, 0, " ") + " so'm"}
                 </StyledTableCell>
-                <StyledTableCell>{user.role.title}</StyledTableCell>
+                <StyledTableCell>
+                  {user.role === null ? "No role" : user.role.title}
+                </StyledTableCell>
                 <StyledTableCell>
                   <FormControlLabel
                     onChange={() => myChangeFn(user)}

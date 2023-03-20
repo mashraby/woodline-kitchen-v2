@@ -22,6 +22,7 @@ import { SelectChangeEvent } from "@mui/material/Select";
 import { toast } from "react-toastify";
 import { AxiosError, AxiosResponse } from "axios";
 import { IProduct } from "../../../interfaces/products.interface";
+import accounting from "accounting";
 
 const style = {
   position: "absolute" as "absolute",
@@ -36,8 +37,9 @@ const style = {
 };
 
 interface IInputProps {
-  product: string | undefined;
+  product: string;
   amount: number;
+  cost: number;
 }
 
 export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
@@ -48,15 +50,18 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
   const [costEmpty, setCostEmty] = useState<boolean>(false);
   const [ctgEmpty, setCtgEmty] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
-  const [cost, setCost] = useState<number>();
+  const [cost, setCost] = useState<number>(0);
   const [selectedCtg, setSelectedCtg] = React.useState("");
   const [products, setProducts] = useState<Array<IProduct>>([]);
   const [inputs, setInputs] = useState<Array<IInputProps>>([
     {
       product: "",
       amount: 0,
+      cost: 0,
     },
   ]);
+  const [sumMoney, setSumMoney] = useState<number>(0);
+  const [check, setCheck] = useState<boolean>(false);
 
   const handleChange = (event: SelectChangeEvent) => {
     setCtgEmty(false);
@@ -70,8 +75,16 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
     });
   }, [reload]);
 
+  useEffect(() => {
+    const sum = inputs
+      ?.map((e) => e.cost * e.amount)
+      .reduce((n1, n2) => n1 + n2);
+
+    setSumMoney(sum);
+  }, [inputs, check]);
+
   const handlePostFood = (): void => {
-    if (name !== "" && cost !== ("" || undefined) && selectedCtg !== "") {
+    if (name !== "" && cost !== 0 && selectedCtg !== "") {
       postFood(
         name,
         cost,
@@ -87,7 +100,7 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
           setOpen(false);
           setReload(!reload);
           setName("");
-          setCost(undefined);
+          setCost(0);
           setSelectedCtg("");
           setReload(!reload);
         })
@@ -214,6 +227,13 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
                       })}
                   </Select>
                 </FormControl>
+                <Typography sx={{ mb: 1 }} variant="h5">
+                  Цена тела: {accounting.formatNumber(cost, 0, " ") + " so'm"}
+                </Typography>
+                <Typography sx={{ mb: 3 }} variant="h5">
+                  Общая стоимость:{" "}
+                  {accounting.formatNumber(sumMoney, 0, " ") + " so'm"}
+                </Typography>
               </Box>
               <Box
                 sx={{ display: "flex", flexDirection: "column", gap: "15px" }}
@@ -228,9 +248,22 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
                       }}
                     >
                       <Autocomplete
+                        disabled={
+                          selectedCtg !== "" &&
+                          ctgs?.find((c) => c._id === selectedCtg)?.name ===
+                            "DRINKS"
+                            ? true
+                            : false
+                        }
                         onKeyDown={(evt) => handleFocus(evt, i)}
                         onChange={(evt, newVal) => {
-                          e.product = newVal?.value;
+                          if (
+                            newVal?.cost !== undefined &&
+                            newVal.value !== undefined
+                          ) {
+                            e.product = newVal?.value;
+                            e.cost = newVal?.cost;
+                          }
                         }}
                         disablePortal
                         id="combo-box-demo"
@@ -238,6 +271,7 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
                           return {
                             label: prod.name,
                             value: prod._id,
+                            cost: prod.cost,
                           };
                         })}
                         sx={{ width: "250px" }}
@@ -252,8 +286,18 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
                         )}
                       />
                       <TextField
-                        onKeyDown={(evt) => handleFocus(evt, i)}                        
-                        onChange={(evt) => (e.amount = +evt.target.value)}
+                        disabled={
+                          selectedCtg !== "" &&
+                          ctgs?.find((c) => c._id === selectedCtg)?.name ===
+                            "DRINKS"
+                            ? true
+                            : false
+                        }
+                        onKeyDown={(evt) => handleFocus(evt, i)}
+                        onChange={(evt) => {
+                          e.amount = +evt.target.value;
+                          setCheck(!check);
+                        }}
                         sx={{ width: "150px" }}
                         type="number"
                         variant="outlined"
@@ -268,14 +312,24 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
                       {
                         product: "",
                         amount: 0,
+                        cost: 0,
                       },
                     ]);
                   }}
                   sx={{ my: "15px" }}
                   variant="outlined"
                   fullWidth
+                  disabled={
+                    selectedCtg !== "" &&
+                    ctgs?.find((c) => c._id === selectedCtg)?.name === "DRINKS"
+                      ? true
+                      : false
+                  }
                 >
-                  добавить больше продуктов +
+                  {selectedCtg !== "" &&
+                  ctgs?.find((c) => c._id === selectedCtg)?.name === "DRINKS"
+                    ? "bu foodga product qosha olmaysiz"
+                    : "добавить больше продуктов +"}
                 </Button>
               </Box>
             </Box>
