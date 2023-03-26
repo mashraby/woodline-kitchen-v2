@@ -28,8 +28,9 @@ import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
 import PaymentIcon from "@mui/icons-material/Payment";
 import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import RamenDiningIcon from '@mui/icons-material/RamenDining';
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import RamenDiningIcon from "@mui/icons-material/RamenDining";
+import SignalCellularAltIcon from '@mui/icons-material/SignalCellularAlt';
 
 const FlexWrapper = styledC.div`
   width: 100%;
@@ -298,7 +299,7 @@ export const MiniDrawer: React.FC = () => {
               <ListItemText primary={"Платежи"} />
             </ListItemButton>
           </ListItem>
-          
+
           <ListItem disablePadding>
             <ListItemButton
               className={href === "/deedline" ? "Mui-selected" : ""}
@@ -323,6 +324,20 @@ export const MiniDrawer: React.FC = () => {
               <ListItemText primary={"Продукты"} />
             </ListItemButton>
           </ListItem>
+
+          <ListItem disablePadding>
+            <ListItemButton
+              className={href === "/warehouse" ? "Mui-selected" : ""}
+              component={NavLink}
+              to="/warehouse"
+            >
+              <ListItemIcon>
+                <SignalCellularAltIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Инвентаризация"} />
+            </ListItemButton>
+          </ListItem>
+
           <ListItem disablePadding>
             <ListItemButton
               className={href === "/stats" ? "Mui-selected" : ""}
