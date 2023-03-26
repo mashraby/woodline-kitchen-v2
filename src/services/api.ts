@@ -12,6 +12,7 @@ import {
 import { ICreateProduct, IProduct } from "../interfaces/products.interface";
 import { IRole } from "../interfaces/roles.interfaces";
 import { IPerson, IUsersPagination } from "../interfaces/users.interfaces";
+import { IWarehouse } from "../interfaces/warehouse.interface";
 
 // LOGIN Service //
 
@@ -135,9 +136,14 @@ export const getOrders = (): Promise<Array<IOrder>> => {
   return instance.get("/order").then((res: AxiosResponse) => res.data);
 };
 
-export const getPaginationOrders = (page: number, size: number): Promise<IOrderPagination> => {
-  return instance.get(`/order/pagination?page=${page}&size=${size}`).then((res: AxiosResponse) => res.data)
-}
+export const getPaginationOrders = (
+  page: number,
+  size: number
+): Promise<IOrderPagination> => {
+  return instance
+    .get(`/order/pagination?page=${page}&size=${size}`)
+    .then((res: AxiosResponse) => res.data);
+};
 
 // Payments Service //
 
@@ -228,4 +234,31 @@ export const deleteProductById = (
 
 export const getLunchs = (): Promise<Array<ILunch>> => {
   return instance.get("/trip").then((res: AxiosResponse) => res.data);
+};
+
+// Warehouse Service //
+
+export const getWarehouses = (): Promise<Array<IWarehouse>> => {
+  return instance.get("/warehouse").then((res: AxiosResponse) => res.data);
+};
+
+export const postWarehouse = (
+  product: string | undefined,
+  amount: number
+): Promise<AxiosResponse> => {
+  return instance.post("/warehouse", {
+    product,
+    amount,
+  });
+};
+
+export const postWarehouseTake = (
+  storedProduct: string,
+  amount: number
+): Promise<AxiosResponse> => {
+  return instance.post("/warehouse/add-take", {
+    storedProduct,
+    amount,
+    type: true,
+  });
 };
