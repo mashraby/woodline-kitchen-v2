@@ -57,7 +57,7 @@ export const AddWarehouseModal: React.FC<IAddWarehouseProps> = (props) => {
         .finally(() => {
           setOpen(false);
           setReload(!reload);
-          setProduct("");   
+          setProduct("");
           setAmount(0);
         });
     }

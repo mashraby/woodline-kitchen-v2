@@ -248,13 +248,6 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
                       }}
                     >
                       <Autocomplete
-                        disabled={
-                          selectedCtg !== "" &&
-                          ctgs?.find((c) => c._id === selectedCtg)?.name ===
-                            "DRINKS"
-                            ? true
-                            : false
-                        }
                         onKeyDown={(evt) => handleFocus(evt, i)}
                         onChange={(evt, newVal) => {
                           if (
@@ -286,13 +279,6 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
                         )}
                       />
                       <TextField
-                        disabled={
-                          selectedCtg !== "" &&
-                          ctgs?.find((c) => c._id === selectedCtg)?.name ===
-                            "DRINKS"
-                            ? true
-                            : false
-                        }
                         onKeyDown={(evt) => handleFocus(evt, i)}
                         onChange={(evt) => {
                           e.amount = +evt.target.value;
@@ -319,17 +305,8 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
                   sx={{ my: "15px" }}
                   variant="outlined"
                   fullWidth
-                  disabled={
-                    selectedCtg !== "" &&
-                    ctgs?.find((c) => c._id === selectedCtg)?.name === "DRINKS"
-                      ? true
-                      : false
-                  }
                 >
-                  {selectedCtg !== "" &&
-                  ctgs?.find((c) => c._id === selectedCtg)?.name === "DRINKS"
-                    ? "bu foodga product qosha olmaysiz"
-                    : "добавить больше продуктов +"}
+                  добавить больше продуктов +
                 </Button>
               </Box>
             </Box>
