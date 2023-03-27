@@ -18,10 +18,9 @@ import { ProductsPage } from "./pages/products-page/products-page";
 import { LunchsPage } from "./pages/lunchs-page/lunchs-page";
 import { FoodById } from "./pages/food-by-id/food-by-id";
 import { WareHousePage } from "./pages/warehouese-page/warehouse-page";
+import { NotFoundPage } from "./pages/404/404";
 
 export const App: React.FC = () => {
-  console.log(process.env.BASE_URL);
-
   return (
     <div className="App">
       <ToastContainer autoClose={5000} />
@@ -42,6 +41,7 @@ export const App: React.FC = () => {
           <Route path="/lunchs" element={<LunchsPage />} />
           <Route path="/stats" element={<StatsPage />} />
           <Route path="/warehouse" element={<WareHousePage />} />
+          <Route path="/*" element={<NotFoundPage />} />
         </Route>
       </Routes>
     </div>
