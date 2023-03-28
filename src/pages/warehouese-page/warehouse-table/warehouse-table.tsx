@@ -93,7 +93,6 @@ const IOSSwitch = styled((props: SwitchProps) => (
     }),
   },
 }));
-
 export const WareHouseTable: React.FC<IWarehouseProps> = (props) => {
   const warehouses: IWarehouse[] = props.warehouses;
   const [takeOpen, setTakeOpen] = useState<boolean>(false);
