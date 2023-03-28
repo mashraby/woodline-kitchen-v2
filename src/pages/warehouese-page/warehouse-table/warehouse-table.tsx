@@ -93,18 +93,10 @@ const IOSSwitch = styled((props: SwitchProps) => (
     }),
   },
 }));
-
 export const WareHouseTable: React.FC<IWarehouseProps> = (props) => {
   const warehouses: IWarehouse[] = props.warehouses;
-  const [products, setProducts] = useState<IProduct[]>([]);
   const [takeOpen, setTakeOpen] = useState<boolean>(false);
   const [prId, setPrId] = useState<string>("");
-
-  useEffect(() => {
-    getProducts().then((data) => {
-      setProducts(data);
-    });
-  }, []);
 
   return (
     <>
@@ -130,19 +122,9 @@ export const WareHouseTable: React.FC<IWarehouseProps> = (props) => {
               return (
                 <StyledTableRow key={index}>
                   <StyledTableCell>{index + 1}</StyledTableCell>
+                  <StyledTableCell>{w.product.name}</StyledTableCell>
                   <StyledTableCell>
-                    {
-                      products.find(
-                        (e) => (e._id as any) === (w.product as any)
-                      )?.name
-                    }
-                  </StyledTableCell>
-                  <StyledTableCell>
-                    {
-                      products.find(
-                        (e) => (e._id as any) === (w.product as any)
-                      )?.cost
-                    }
+                    {accounting.formatNumber(w.product.cost, 0, " ") + " so'm"}
                   </StyledTableCell>
                   <StyledTableCell>{w.amount}</StyledTableCell>
                   <StyledTableCell>

@@ -1,3 +1,4 @@
+import { IProduct } from "./products.interface";
 
 interface IWarehouseProdoct {
   name: string;
@@ -6,7 +7,7 @@ interface IWarehouseProdoct {
 
 export interface IWarehouse {
   _id: string;
-  product: IWarehouseProdoct;
+  product: IProduct;
   amount: number;
 }
 
@@ -20,7 +21,7 @@ export interface IAddWarehouseProps {
 }
 
 export interface IAddTakeModalProps {
-  takeOpen: boolean
+  takeOpen: boolean;
   setTakeOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  productId: string
+  productId: string;
 }
