@@ -156,7 +156,7 @@ export const MiniDrawer: React.FC = () => {
   const [open, setOpen] = useState(myOpen);
   const href: string = window.location.href
     .toString()
-    .split("http://localhost:3000")[1];
+    .split("https://woodline-kitchen-v2.vercel.app")[1];
 
   const handleDrawerOpen = () => {
     setOpen(true);
