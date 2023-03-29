@@ -254,11 +254,12 @@ export const postWarehouse = (
 
 export const postWarehouseTake = (
   storedProduct: string,
-  amount: number
+  amount: number,
+  type: boolean
 ): Promise<AxiosResponse> => {
   return instance.post("/warehouse/add-take", {
     storedProduct,
     amount,
-    type: true,
+    type,
   });
 };
