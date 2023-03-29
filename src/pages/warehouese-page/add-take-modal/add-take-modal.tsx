@@ -5,12 +5,27 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/Send";
-import { TextField, Typography } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { IAddTakeModalProps } from "../../../interfaces/warehouse.interface";
 import { postWarehouseTake } from "../../../services/api";
 import { AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { ReloadContext } from "../../../context/reload.context";
+
+// type SelectChangeEvent<T = string> = (Event & {
+//   target: {
+//       value: T;
+//       // name: string;
+//   };
+// })
 
 const style = {
   position: "absolute" as "absolute",
@@ -28,16 +43,19 @@ export const AddTakeModal: React.FC<IAddTakeModalProps> = (props) => {
   const { takeOpen, setTakeOpen, productId } = props;
   const handleClose = () => setTakeOpen(false);
   const [amount, setAmount] = useState<number>(0);
+  const [type, setType] = useState<string>("true");
   const { reload, setReload } = useContext(ReloadContext);
 
   const createTakeWarehouse = () => {
     if (amount === 0) {
       toast.warning("Input bo'sh bo'lmasligi kerak");
     } else {
-      postWarehouseTake(productId, amount)
+      postWarehouseTake(productId, amount, type === "true" ? true : false)
         .then((res: AxiosResponse) => {
           if (res.status === 200) {
-            toast.success("Successfully created");
+            toast.success(
+              type === "true" ? "Successfully created" : "Successfully removed"
+            );
           }
         })
         .catch((err) => {
@@ -49,8 +67,13 @@ export const AddTakeModal: React.FC<IAddTakeModalProps> = (props) => {
           setTakeOpen(false);
           setReload(!reload);
           setAmount(0);
+          setType("true");
         });
     }
+  };
+
+  const handleChange = (evt: SelectChangeEvent) => {
+    setType(evt.target.value);
   };
 
   return (
@@ -84,6 +107,22 @@ export const AddTakeModal: React.FC<IAddTakeModalProps> = (props) => {
               label="amount"
               fullWidth
             />
+
+            <FormControl sx={{ mb: 3 }} fullWidth>
+              <InputLabel id="demo-simple-select-label">
+                Add or remove
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={type}
+                label="Add or remove"
+                onChange={handleChange}
+              >
+                <MenuItem value={"true"}>Add</MenuItem>
+                <MenuItem value={"false"}>Remove</MenuItem>
+              </Select>
+            </FormControl>
 
             <Button
               onClick={createTakeWarehouse}

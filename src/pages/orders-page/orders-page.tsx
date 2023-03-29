@@ -41,7 +41,7 @@ export const OrdersPage: React.FC = () => {
     page: number
   ) => {
     setPage(page);
-  };
+  };  
 
   return (
     <>

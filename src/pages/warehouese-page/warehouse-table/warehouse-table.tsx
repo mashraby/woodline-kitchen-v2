@@ -113,6 +113,7 @@ export const WareHouseTable: React.FC<IWarehouseProps> = (props) => {
               <StyledTableCell>ID</StyledTableCell>
               <StyledTableCell>Food Name</StyledTableCell>
               <StyledTableCell>Food Cost</StyledTableCell>
+              <StyledTableCell>Total Cost</StyledTableCell>
               <StyledTableCell>Amount</StyledTableCell>
               <StyledTableCell>Add</StyledTableCell>
             </TableRow>
@@ -126,6 +127,13 @@ export const WareHouseTable: React.FC<IWarehouseProps> = (props) => {
                   <StyledTableCell>
                     {accounting.formatNumber(w.product.cost, 0, " ") + " so'm"}
                   </StyledTableCell>
+                  <StyledTableCell>
+                    {accounting.formatNumber(
+                      w.product.cost * w.amount,
+                      0,
+                      " "
+                    ) + " so'm"}
+                  </StyledTableCell>
                   <StyledTableCell>{w.amount}</StyledTableCell>
                   <StyledTableCell>
                     <Button
@@ -135,7 +143,7 @@ export const WareHouseTable: React.FC<IWarehouseProps> = (props) => {
                       }}
                       variant="outlined"
                     >
-                      Add take
+                      Add or remove take
                     </Button>
                   </StyledTableCell>
                 </StyledTableRow>
